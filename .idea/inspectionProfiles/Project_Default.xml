@@ -1,0 +1,15 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="game.common.avatar.Avatar" />
+          <option value="game.common.avatar.Self" />
+          <option value="game.common.game_object.GameObject.occupied_by" />
+          <option value="wrapper.game.config" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
