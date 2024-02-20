@@ -2,12 +2,15 @@ import requests
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
+print('What is the url of the image?')
+filename = input()
+
+
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
 img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg'
-raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')
-
+raw_image = Image.open(requests.get(filename, stream=True).raw).convert('RGB')
 # Conditional image captioning
 text = "a photography of"
 inputs = processor(raw_image, text, return_tensors="pt")
