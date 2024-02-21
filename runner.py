@@ -1,8 +1,9 @@
 import os
+import utils
 from application.image_caption_generator import ImageCaptionGenerator
 
 if __name__ == '__main__':
-    os.system('cls' if os.name == 'nt' else 'clear')
+    utils.clear_terminal()
     print('Welcome to the Ovative Group Image Caption Generator!', end='\n\n')
     image_caption_generator = ImageCaptionGenerator()
     image_caption_generator.start()
