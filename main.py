@@ -1,22 +1,36 @@
 import requests
+import torch
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
+from image_processor import ImageProcessor
 
-processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
-img_url = 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/demo.jpg'
-raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')
+class ImageCaptionGenerator:
+    def __init__(self):
+        self.using_url: bool = False
+        self.using_dir: bool = False
+        self.img_url: str = ''
+        self.dir_path: str = ''
+        self.image_processor: ImageProcessor
 
-# Conditional image captioning
-text = "a photography of"
-inputs = processor(raw_image, text, return_tensors="pt")
+    def get_input(self):
+        user_input: str = input('Will you use an image URL or a file directory? (url/dir)\n> ')
+        self.process_input(user_input)
 
-out = model.generate(**inputs)
-print(processor.decode(out[0], skip_special_tokens=True))
+    def process_input(self, user_input: str) -> None:
+        self.using_url = True if user_input.__contains__('u') else False
+        self.using_dir = True if user_input.__contains__('d') else False
 
-# Unconditional image captioning
-inputs = processor(images=raw_image, return_tensors="pt")
+        if self.using_url or self.using_dir:
+            image_processing = ImageProcessor(self.img_url, self.dir_path)
+            image_processing.process_image()
+            return
 
-out = model.generate(**inputs)
-print(processor.decode(out[0], skip_special_tokens=True))
+        print('Please provide proper input (url, URL, u; dir, d, directory)')
+        self.get_input()
+
+
+if __name__ == '__main__':
+    print('Welcome to the Ovative Group Image Caption Generator!', end='\n\n')
+    image_caption_generator = ImageCaptionGenerator()
+    image_caption_generator.get_input()
