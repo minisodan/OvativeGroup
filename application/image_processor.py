@@ -43,7 +43,7 @@ def store_image(img_source: str, con_caption: str, unc_caption: str) -> None:
 
     try:
         os.makedirs(path)  # make directory if it doesn't exist already
-        print(f'Created new directory, {path}, to store generated captions.\n')
+        print(f'Created new directory, "{path}", to store generated captions.\n')
     except OSError:
         print(f'Directory "{path}" already exists. Creating file to store generated captions...\n')
 
