@@ -4,7 +4,7 @@ from application.image_caption_generator import start
 
 def main():
     utils.clear_terminal()
-    print('Welcome to the Ovative Group Caption Generator!', end='\n\n')
+    print('Welcome to the Ovative Group Caption Generator!\n')
     start()
 
 

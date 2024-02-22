@@ -107,7 +107,7 @@ class ImageProcessor:
         extension: str = self.user_input[::-1].split('.')[0][::-1]
 
         # check if the file extension is valid
-        return extension in ['jpeg', 'jpg', 'png', 'tiff', 'raw', 'webp']
+        return extension in ['jpeg', 'jpg', 'png', 'tiff', 'raw', 'webp', ]
 
     def validate_file_extension(self) -> None:
         """
