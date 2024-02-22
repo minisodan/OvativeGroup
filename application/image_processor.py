@@ -1,16 +1,68 @@
+import datetime
+import os
+
 import requests
 import torch
+import validators
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
+
 import utils
-import re
+
+
+def caption_image(img: Image, img_source: str, processor, model) -> None:
+    # Conditional image captioning
+    text = "a photo of"
+    inputs = processor(img, text, return_tensors="pt")
+
+    out = model.generate(**inputs, max_length=60)
+    con_caption: str = 'Conditional image caption: ' + processor.decode(out[0], skip_special_tokens=True)
+    print(con_caption)
+
+    # Unconditional image captioning
+    inputs = processor(images=img, return_tensors="pt")
+
+    out = model.generate(**inputs, max_length=60)
+    unc_caption: str = 'Unconditional image caption: ' + processor.decode(out[0], skip_special_tokens=True)
+    print(unc_caption, end='\n\n')
+
+    store_image(img_source, con_caption, unc_caption)
+
+
+def store_image(img_source: str, con_caption: str, unc_caption: str) -> None:
+    """
+    Stores the given captions of the given image in a file. Creates a new folder if it doesn't exist.
+    :param img_source: The URL or directory path that sourced the image
+    :param con_caption: Conditional caption
+    :param unc_caption: Unconditional caption
+    :return: None
+    """
+    parent_dir: str = os.path.expanduser('~') + '\\Desktop'  # User's directory (e.g., C:/Users/example_user_name/)
+    directory: str = 'Ovative Group Caption Generator'
+    path: str = os.path.join(parent_dir, directory)
+
+    try:
+        os.makedirs(path)  # make directory if it doesn't exist already
+        print(f'Created new directory, {path}, to store generated captions.\n')
+    except OSError:
+        print(f'Directory "{path}" already exists. Creating file to store generated captions...\n')
+
+    now: datetime = datetime.datetime.now()
+    file_name: str = now.strftime("%Y-%m-%d %H-%M-%S")
+
+    with open(path + '\\' + file_name + '.txt', 'a') as file:
+        file.write(f'Image source: {img_source}\n'
+                   f'{con_caption}\n'
+                   f'{unc_caption}\n\n')
+        print(f'Stored output in "{path}\\' + file_name + '.txt"\n')
 
 
 class ImageProcessor:
     def __init__(self, user_input: str):
         self.user_input: str = user_input
+        self.urls: list[str] = []
 
-    def convert_input(self) -> Image:
+    def convert_input(self) -> list[tuple[Image, str]]:
         """
         This method converts the URL to an image if it is a valid image link. Otherwise, it converts the given file
         directory.
@@ -22,11 +74,14 @@ class ImageProcessor:
 
         if self.is_url():
             self.clean_url()
-            return Image.open(requests.get(self.user_input, stream=True).raw).convert('RGB')
 
-        return Image.open(self.user_input).convert("RGB")
+            # return a list of tuple of (Image, URL)
+            return [(Image.open(requests.get(url, stream=True).raw).convert('RGB'), url) for url in self.urls]
 
-    def process_image(self) -> None:
+        # return a list of tuple of (Image, directory)
+        return [(Image.open(self.user_input).convert("RGB"), self.user_input)]
+
+    def process_input(self) -> None:
         """
         This method will use the user's input to call the pre-trained model and provide the output.
         :return: None
@@ -35,20 +90,12 @@ class ImageProcessor:
         processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
         model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
-        img = self.convert_input()
+        # Receive the given input as a Pillow Image object
+        images: list[tuple[Image, str]] = self.convert_input()
 
-        # Conditional image captioning
-        text = "a photo of"
-        inputs = processor(img, text, return_tensors="pt")
-
-        out = model.generate(**inputs)
-        print(processor.decode(out[0], skip_special_tokens=True))
-
-        # Unconditional image captioning
-        inputs = processor(images=img, return_tensors="pt")
-
-        out = model.generate(**inputs)
-        print(processor.decode(out[0], skip_special_tokens=True))
+        for img, img_source in images:
+            print()  # to space the captions generated in the terminal
+            caption_image(img, img_source, processor, model)
 
     def valid_extension(self) -> bool:
         """
@@ -64,8 +111,8 @@ class ImageProcessor:
 
     def validate_file_extension(self) -> None:
         """
-        This method will check if the user's input is valid. If not, it will prompt the user again to enter a URL or
-        file directory to an image.
+        This method will check if the user's input contains a valid file extension. If not, it will prompt the user
+        again to enter a URL or file directory to an image.
         :return: None
         """
 
@@ -73,37 +120,44 @@ class ImageProcessor:
 
         while not valid:
             utils.clear_terminal()
-            print('Invalid file extension. Please provide a valid file extension.')
-            self.user_input: str = input('Provide the new image url/directory? Press "Q" to quit.\n> ')
+            print('Invalid file extension. Please provide input containing a valid file extension '
+                  '(jpeg, jpg, png, tiff, raw, webp).')
+            self.user_input: str = input('Please provide the new image url/directory. Press "Q" to quit.\n> ')
+
             if self.user_input.lower() in ['q', 'quit']:
                 break
 
+            valid: bool = self.valid_extension()
+
+        # If input still isn't valid and user quits, clear terminal; application ends
         if not valid:
             utils.clear_terminal()
             return
 
-        self.process_image()
+        self.process_input()
 
     def is_url(self) -> bool:
         """
-        This method checks if the user's input is a valid URL.
+        This method checks if the user's input contains a valid URL(s). Many URL may be given at a time.
         :return: True or False
         """
-        regex = (r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s("
-                 r")<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))")
-        urls: list[str] = re.findall(regex, self.user_input)
 
-        if len(urls) == 0:
-            return False
+        self.urls: list[str] = self.user_input.split(', ')
 
-        # add code to handle when multiple links are provided at once
+        valid: bool = True
 
-        return True
+        for url in self.urls:
+            if not validators.url(url):
+                valid = False
+                break
+
+        return valid
 
     def clean_url(self) -> None:
         """
         If the given URL contains 'www,' add 'https://' to the beginning of the string so the model recognizes it.
         :return: None
         """
+
         if self.user_input[0:3] == 'www':
             self.user_input = 'https://' + self.user_input
