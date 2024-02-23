@@ -62,7 +62,7 @@ class ImageProcessor:
         self.user_input: str = user_input
         self.urls: list[str] = []
 
-    def convert_input(self) -> list[tuple[Image, str]]:
+    def convert_input(self) -> list[tuple[Image, str]] | None:
         """
         This method converts the URL to an image if it is a valid image link. Otherwise, it converts the given file
         directory.
@@ -72,14 +72,17 @@ class ImageProcessor:
         # Do not delete this line; used for creating the image
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+        print('\nChecking input...')
+
         if self.is_url():
             self.clean_url()
 
             # return a list of tuple of (Image, URL)
             return [(Image.open(requests.get(url, stream=True).raw).convert('RGB'), url) for url in self.urls]
 
-        # return a list of tuple of (Image, directory)
-        return [(Image.open(self.user_input).convert("RGB"), self.user_input)]
+        if self.is_dir():
+            # return a list of tuple of (Image, directory)
+            return [(Image.open(self.user_input).convert("RGB"), self.user_input)]
 
     def process_input(self) -> None:
         """
@@ -91,11 +94,23 @@ class ImageProcessor:
         model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
         # Receive the given input as a Pillow Image object
-        images: list[tuple[Image, str]] = self.convert_input()
+        images: list[tuple[Image, str]] | None = self.convert_input()
+
+        if images is None:
+            self.invalid_prompt()
+            return
+
+        print('\nValid input received. Processing image(s)...')
+        utils.clear()
 
         for img, img_source in images:
             print()  # to space the captions generated in the terminal
-            caption_image(img, img_source, processor, model)
+
+            try:
+                caption_image(img, img_source, processor, model)
+            except Exception as e:
+                print(e)
+                print('An error occurred while processing an image. Please try again.\n')
 
     def valid_extension(self) -> bool:
         """
@@ -119,20 +134,16 @@ class ImageProcessor:
         valid: bool = self.valid_extension()
 
         while not valid:
-            utils.clear_terminal()
-            print('Invalid file extension. Please provide input containing a valid file extension '
-                  '(jpeg, jpg, png, tiff, raw, webp).')
-            self.user_input: str = input('Please provide the new image url/directory. Press "Q" to quit.\n> ')
+            utils.clear()
+            print(f'Invalid file extension, "{self.user_input}", was given. Please provide input containing a valid '
+                  f'file extension (jpeg, jpg, png, tiff, raw, webp).')
+            self.user_input = input('Please provide the new image url/directory. Press "Q" to quit.\n> ')
 
-            if self.user_input.lower() in ['q', 'quit']:
-                break
+            # end application if quitting
+            if utils.quitting(self.user_input):
+                utils.end()
 
             valid: bool = self.valid_extension()
-
-        # If input still isn't valid and user quits, clear terminal; application ends
-        if not valid:
-            utils.clear_terminal()
-            return
 
         self.process_input()
 
@@ -153,6 +164,14 @@ class ImageProcessor:
 
         return valid
 
+    def is_dir(self) -> bool:
+        """
+        This method checks if the user's input is an existing, local directory.
+        :return: True or False
+        """
+
+        return os.path.exists(self.user_input)
+
     def clean_url(self) -> None:
         """
         If the given URL contains 'www,' add 'https://' to the beginning of the string so the model recognizes it.
@@ -161,3 +180,13 @@ class ImageProcessor:
 
         if self.user_input[0:3] == 'www':
             self.user_input = 'https://' + self.user_input
+
+    def invalid_prompt(self) -> None:
+        utils.clear()
+        print(f'Invalid input, "{self.user_input}", was given. Please provide an image URL or an existing directory.')
+        self.user_input = input('> ')
+
+        if not utils.quitting(self.user_input):
+            self.process_input()
+
+        utils.end()
