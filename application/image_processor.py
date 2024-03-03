@@ -40,9 +40,9 @@ def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) 
     """
 
     now: datetime = datetime.datetime.now()
-    file_name: str = now.strftime("%Y-%m-%d %H-%M-%S")
+    file_name: str = now.strftime("%Y-%m-%d %H-%M-%S") + '.txt'
 
-    with open(os.path.join(path, '.txt'), 'a') as file:
+    with open(os.path.join(path, file_name), 'a') as file:
         file.write(f'Image source: {img_source}\n'
                    f'{con_caption}\n'
                    f'{unc_caption}\n\n')
