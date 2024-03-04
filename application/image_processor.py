@@ -11,6 +11,15 @@ import utils
 
 
 def caption_image(img: Image, img_source: str, processor, model) -> None:
+    """
+    This method will caption the given Pillow Image using the given model, which is the Salesforce captioning model.
+    Two captions will be generated and outputted.
+    :param img:
+    :param img_source:
+    :param processor:
+    :param model:
+    :return: None
+    """
     # Conditional image captioning
     text = "a photo of"
     inputs = processor(img, text, return_tensors="pt")
@@ -31,7 +40,8 @@ def caption_image(img: Image, img_source: str, processor, model) -> None:
 
 def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) -> None:
     """
-    Stores the given captions of the given image in a file. Creates a new folder if it doesn't exist.
+    Stores the given captions of the given image in a file. Creates a new folder on the local device if that path
+    doesn't already exist.
     :param path: The path of the directory
     :param img_source: The URL or directory path that sourced the image
     :param con_caption: Conditional caption
@@ -84,10 +94,19 @@ def valid_extension(img_source) -> bool:
 
 
 def invalid_msg(img_source) -> None:
+    """
+    Print a message saying that the given image source is not valid and won't be processed.
+    :param img_source:
+    :return: None
+    """
     print(f'\nThe given file, "{img_source}", is an invalid input. This will not be processed.')
 
 
 def break_line():
+    """
+    A break line that's used to help separate the outputs.
+    :return:
+    """
     print('\n-----------------------------------------------------------------------')
 
 
@@ -191,6 +210,10 @@ class ImageProcessor:
             self.user_input = 'https://' + self.user_input
 
     def invalid_prompt(self) -> None:
+        """
+        If the user input is completely invalid, prompt the user again to provide proper input.
+        :return:
+        """
         utils.clear()
         print(f'Invalid input, "{self.user_input}", was given. Please provide an image URL(s) or an existing directory '
               f'to multiple images.')

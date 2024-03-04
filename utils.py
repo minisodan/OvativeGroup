@@ -1,6 +1,10 @@
 import os
 import sys
 
+"""
+Utility functions used for the application. Helps to abstract some functions from the other files.
+"""
+
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
