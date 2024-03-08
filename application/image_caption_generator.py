@@ -1,18 +1,39 @@
+import utils
 from application.image_processor import ImageProcessor
 
 
-class ImageCaptionGenerator:
-    def __init__(self):
-        self.using_url: bool = False
-        self.image_processor: ImageProcessor
+"""
+This file is used to start the application. The start method is used in the runner.py file, which will ask the user for 
+input once started.
+"""
 
-    def start(self):
-        user_input: str = input('Will you use an image URL or a file directory? (url/dir)\n> ')
-        self.process_input(user_input)
 
-    def process_input(self, user_input: str) -> None:
-        self.using_url = True if user_input.lower().__contains__('u') else False
+def process_input(user_input: str) -> None:
+    ImageProcessor(user_input).process_input()
+    return
 
-        image_processing = ImageProcessor(self.using_url)
-        image_processing.process_image()
+
+def start():
+    print('Please provide an image URL(s) or a directory path to an image(s). If submitting '
+          'multiple URLs, separate them with a comma and a space (i.e, ", ").\n(You may quit the application at '
+          'anytime by entering "q" or "quit")')
+    user_input: str = input('\n> ')
+
+    if utils.quitting(user_input):
+        utils.end()
         return
+
+    process_input(user_input)
+
+    reprompt()
+
+
+def reprompt() -> None:
+    print('\nWould you like to provide more images? (y/n)')
+    user_input = input('\n> ')
+
+    if user_input.lower() in ['y', 'yes']:
+        utils.clear()
+        start()
+
+    utils.end()
