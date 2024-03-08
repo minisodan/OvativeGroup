@@ -2,6 +2,12 @@ import utils
 from application.image_processor import ImageProcessor
 
 
+"""
+This file is used to start the application. The start method is used in the runner.py file, which will ask the user for 
+input once started.
+"""
+
+
 def process_input(user_input: str) -> None:
     ImageProcessor(user_input).process_input()
     return
@@ -19,10 +25,10 @@ def start():
 
     process_input(user_input)
 
-    prompt_again()
+    reprompt()
 
 
-def prompt_again() -> None:
+def reprompt() -> None:
     print('\nWould you like to provide more images? (y/n)')
     user_input = input('\n> ')
 

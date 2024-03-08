@@ -49,8 +49,8 @@ def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) 
     :return: None
     """
 
-    now: datetime = datetime.datetime.now()
-    file_name: str = now.strftime("%Y-%m-%d %H-%M-%S") + '.txt'
+    current_time: datetime = datetime.datetime.now()
+    file_name: str = current_time.strftime("%Y-%m-%d %H-%M-%S") + '.txt'
 
     with open(os.path.join(path, file_name), 'a') as file:
         file.write(f'Image source: {img_source}\n'
