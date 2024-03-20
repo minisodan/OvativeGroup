@@ -29,7 +29,7 @@ def caption_image(img: Image, img_source: str, processor, model) -> None:
     unc_caption: str = 'Unconditional image caption: ' + processor.decode(out[0], skip_special_tokens=True)
     print(unc_caption, end='\n\n')
 
-    store_image(create_dir(), img_source, con_caption, unc_caption)
+    store_image(utils.create_dir(), img_source, con_caption, unc_caption)
 
 
 def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) -> None:
@@ -53,25 +53,6 @@ def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) 
         print(f'Stored output in "{path}\\' + file_name + '.txt"')
 
 
-def create_dir() -> str:
-    """
-    Creates the directory the inputs will be stored in and return that directory string.
-    :return: string representing the created folder directory
-    """
-
-    # User's directory (e.g., C:/Users/example_user_name/)
-    parent_dir: str = os.path.join(os.path.expanduser('~'), 'Desktop')
-    directory: str = 'Ovative Group Caption Generator'
-    path: str = os.path.join(parent_dir, directory)
-
-    if not os.path.exists(path):
-        utils.clear()
-        os.makedirs(path)  # make directory if it doesn't exist already
-        print(f'Created new directory, "{path}", to store generated captions.\n')
-
-    return path
-
-
 def valid_extension(img_source) -> bool:
     """
     This method will check if the user's input contains a valid file extension.
@@ -93,7 +74,7 @@ def invalid_msg(img_source) -> None:
     :param img_source:
     :return: None
     """
-    print(f'\nThe given file, "{img_source}", is an invalid input. This will not be processed.')
+    print(f'\nThe given input, "{img_source}", is an invalid input. This will not be processed.')
 
 
 def break_line():

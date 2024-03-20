@@ -10,13 +10,22 @@ import utils
 from models import blip_image as bi
 
 
-class ImageProcessor:
-    def __init__(self, user_input: str):
-        self.user_input: str = user_input
-        self.urls: list[str] = []
-        self.path: str = bi.create_dir()
+class ImageProcessor(object):
+    """
+    This class enforces a singleton structure. This is because only *one* instance of ImageProcessor is needed when the
+    application is in use.
+    """
 
-    def convert_input(self) -> list[tuple[Image, str]]:
+    __instance = None
+
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super(ImageProcessor, cls).__new__(ImageProcessor)
+            cls.__instance.urls = []
+            cls.__instance.path = utils.create_dir()
+        return cls.__instance
+
+    def __convert_input(self, user_input: str) -> list[tuple[Image, str]]:
         """
         This method converts the URL to an image if it is a valid image link. Otherwise, it converts the given file
         directory.
@@ -30,17 +39,17 @@ class ImageProcessor:
 
         print('Checking input...')
 
-        if self.is_url():
+        if self.__is_url(user_input):
             return [(Image.open(requests.get(img_source, stream=True).raw).convert('RGB'), img_source) if
                     bi.valid_extension(img_source) else bi.invalid_msg(img_source) for img_source in self.urls]
 
-        if self.is_dir():
+        if utils.is_dir(user_input):
             # return a list of tuple of (Image, directory)
-            return [(Image.open(os.path.join(self.user_input, img_source)).convert("RGB"),
-                     os.path.join(self.user_input, os.path.basename(img_source))) if bi.valid_extension(img_source) else
-                    bi.invalid_msg(img_source) for img_source in os.listdir(self.user_input)]
+            return [(Image.open(os.path.join(user_input, img_source)).convert("RGB"),
+                     os.path.join(user_input, os.path.basename(img_source))) if bi.valid_extension(img_source) else
+                    bi.invalid_msg(img_source) for img_source in os.listdir(user_input)]
 
-    def process_input(self) -> None:
+    def process_input(self, user_input: str) -> None:
         """
         This method will use the user's input to call the pre-trained model and provide the output.
         :return: None
@@ -50,13 +59,13 @@ class ImageProcessor:
         model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
         # Receive the given input as a Pillow Image object and the given source
-        images: list[tuple[Image, str]] | None = self.convert_input()
+        images: list[tuple[Image, str]] | None = self.__convert_input(user_input)
 
         try:
             # clean the input of any bad files
             images = bi.prune(images)
         except TypeError:
-            self.invalid_prompt()
+            self.__invalid_prompt(user_input)
 
         print('\nProcessing...')
 
@@ -66,13 +75,13 @@ class ImageProcessor:
             bi.caption_image(img, img_source, processor, model)
             bi.break_line()
 
-    def is_url(self) -> bool:
+    def __is_url(self, user_input: str) -> bool:
         """
         This method checks if the user's input contains a valid URL(s). Many URL may be given at a time.
         :return: True or False
         """
 
-        self.urls: list[str] = self.user_input.split(', ')
+        self.urls: list[str] = user_input.split(', ')
 
         valid: bool = True
 
@@ -83,32 +92,15 @@ class ImageProcessor:
 
         return valid
 
-    def is_dir(self) -> bool:
-        """
-        This method checks if the user's input is an existing, local directory.
-        :return: True or False
-        """
-
-        return os.path.exists(self.user_input)
-
-    def clean_url(self) -> None:
-        """
-        If the given URL contains 'www,' add 'https://' to the beginning of the string so the model recognizes it.
-        :return: None
-        """
-
-        if self.user_input[0:3] == 'www':
-            self.user_input = 'https://' + self.user_input
-
-    def invalid_prompt(self) -> None:
+    def __invalid_prompt(self, user_input: str) -> None:
         """
         If the user input is completely invalid, prompt the user again to provide proper input.
         :return:
         """
         utils.clear()
-        print(f'Invalid input, "{self.user_input}", was given. Please provide an image URL(s) or an existing directory '
+        print(f'Invalid input, "{user_input}", was given. Please provide an image URL(s) or an existing directory '
               f'to multiple images.')
-        self.user_input = input('\n> ')
+        user_input = input('\n> ')
 
-        if not utils.quitting(self.user_input):
-            self.process_input()
+        if not utils.quitting(user_input):
+            self.process_input(user_input)
