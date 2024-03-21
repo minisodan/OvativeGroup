@@ -1,5 +1,6 @@
 import os
 import sys
+import validators
 
 """
 Utility functions used for the application. Helps to abstract some functions from the other files.
@@ -7,11 +8,14 @@ Utility functions used for the application. Helps to abstract some functions fro
 
 
 def clear():
+    """
+    This will clear the terminal of any previously printed output.
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def quitting(user_input: str) -> bool:
-    return user_input.lower() in ['q', 'quit']
+def quitting(given_input: str) -> bool:
+    return given_input.lower() in ['q', 'quit']
 
 
 def end() -> None:
@@ -20,23 +24,50 @@ def end() -> None:
     sys.exit()
 
 
-def is_dir(user_input: str) -> bool:
+def is_dir(given_input: str) -> bool:
     """
     This method checks if the user's input is an existing, local directory.
     :return: True or False
     """
 
-    return os.path.exists(user_input)
+    return os.path.exists(given_input)
 
 
-def clean_url(user_input: str) -> str:
+def is_url(given_input: str) -> bool:
+    """
+    This method checks if the user's input contains a valid URL(s). Many URL may be given at a time.
+    :return: True or False
+    """
+
+    urls: list[str] = given_input.split(', ')
+
+    valid: bool = True
+
+    for url in urls:
+        if not validators.url(url):
+            valid = False
+            break
+
+    return valid
+
+
+def invalid_msg(given_input: str) -> None:
+    """
+    If the user input is completely invalid, prompt the user again to provide proper input.
+    :return:
+    """
+    clear()
+    print(f'Invalid input, "{given_input}", was given.')
+
+
+def clean_url(given_input: str) -> str:
     """
     If the given URL contains 'www,' add 'https://' to the beginning of the string so the model recognizes it.
     :return: None
     """
 
-    if user_input[0:3] == 'www':
-        return 'https://' + user_input
+    if given_input[0:3] == 'www':
+        return 'https://' + given_input
 
 
 def create_dir() -> str:
@@ -56,3 +87,7 @@ def create_dir() -> str:
         print(f'Created new directory, "{path}", to store generated captions.\n')
 
     return path
+
+
+def user_input(given_input: str) -> str:
+    return given_input

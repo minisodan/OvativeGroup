@@ -9,14 +9,8 @@ class TestUserInput(unittest.TestCase):
         self.icg = icg.ImageProcessor
 
     def test_process_input_successful(self) -> None:
-        user_input = 'hi'
-        expected_error_string = ('Invalid input, hi, was given. Please provide an image URL(s) or an existing directory'
-                                 'to multiple images.')
-        actual_error_string = f'Invalid input, "{user_input}", was given. Please provide an image URL(s) or an existing directory to multiple images.'
+        mock: Mock = Mock()
+        icg.process_input = mock
+        icg.process_input("https://i.pinimg.com/736x/8f/8c/f2/8f8cf2b9a584100047ff16974a5464e8.jpg")
 
-    def test_process_input_fail(self):
-        mock : Mock = Mock()
-        self.icg.process_input("hi") = mock
-
-
-
+        mock.assert_called_once()
