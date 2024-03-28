@@ -2,7 +2,6 @@ import os
 
 import requests
 import torch
-import validators
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
@@ -39,7 +38,7 @@ class ImageProcessor(object):
 
         print('Checking input...')
 
-        if self.__is_url(user_input):
+        if utils.is_url(user_input):
             return [(Image.open(requests.get(img_source, stream=True).raw).convert('RGB'), img_source) if
                     bi.valid_extension(img_source) else bi.invalid_msg(img_source) for img_source in self.urls]
 
@@ -49,10 +48,11 @@ class ImageProcessor(object):
                      os.path.join(user_input, os.path.basename(img_source))) if bi.valid_extension(img_source) else
                     bi.invalid_msg(img_source) for img_source in os.listdir(user_input)]
 
-    def process_input(self, user_input: str) -> None:
+    def process_input(self, user_input: str) -> bool:
         """
-        This method will use the user's input to call the pre-trained model and provide the output.
-        :return: None
+        This method will use the user's input to call the pre-trained model and provide the output. True or False is
+        returned to resemble a successful output.
+        :return: True or False
         """
 
         processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
@@ -65,7 +65,7 @@ class ImageProcessor(object):
             # clean the input of any bad files
             images = bi.prune(images)
         except TypeError:
-            self.__invalid_prompt(user_input)
+            return False
 
         print('\nProcessing...')
 
@@ -75,32 +75,4 @@ class ImageProcessor(object):
             bi.caption_image(img, img_source, processor, model)
             bi.break_line()
 
-    def __is_url(self, user_input: str) -> bool:
-        """
-        This method checks if the user's input contains a valid URL(s). Many URL may be given at a time.
-        :return: True or False
-        """
-
-        self.urls: list[str] = user_input.split(', ')
-
-        valid: bool = True
-
-        for url in self.urls:
-            if not validators.url(url):
-                valid = False
-                break
-
-        return valid
-
-    def __invalid_prompt(self, user_input: str) -> None:
-        """
-        If the user input is completely invalid, prompt the user again to provide proper input.
-        :return:
-        """
-        utils.clear()
-        print(f'Invalid input, "{user_input}", was given. Please provide an image URL(s) or an existing directory '
-              f'to multiple images.')
-        user_input = input('\n> ')
-
-        if not utils.quitting(user_input):
-            self.process_input(user_input)
+        return True

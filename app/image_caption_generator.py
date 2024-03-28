@@ -10,11 +10,6 @@ input once started.
 processor: ImageProcessor = ImageProcessor()
 
 
-def process_input(user_input: str) -> None:
-    processor.process_input(user_input)
-    return
-
-
 def start():
     while True:
         utils.clear()
@@ -27,14 +22,19 @@ def start():
             utils.end()
             return
 
-        process_input(user_input)
+        success: bool = processor.process_input(user_input)
 
-        reprompt()
+        reprompt(success, user_input)
 
 
-def reprompt() -> None:
-    print('\nWould you like to provide more images? (y/n)')
-    user_input = input('\n> ')
+def reprompt(success: bool, user_input) -> None:
+    if success:
+        print('\nWould you like to provide more images? (y/n)')
+        user_input = input('\n> ')
+    else:
+        utils.invalid_msg(user_input)
+        print('\nWould you like to try again? (y/n)')
+        user_input = input('\n> ')
 
     if user_input.lower() in ['n', 'no']:
         utils.end()
