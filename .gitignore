@@ -1,2 +1,5 @@
 # PyCharm specifics
 .idea
+.pyc
+.xml
+.iml
