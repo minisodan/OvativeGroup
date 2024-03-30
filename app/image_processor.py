@@ -32,35 +32,20 @@ class ImageProcessor(object):
         # Do not delete this line; used for creating the image
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        utils.clear()
-
         results: list[tuple[Image, str]] = []
 
         for img_source in image_sources:
-            # append to the results list a tuple of (Image, image_source)
-
             if utils.is_url(img_source):
                 results.append((Image.open(requests.get(img_source, stream=True).raw).convert('RGB'), img_source))
-                # return [(Image.open(requests.get(img_source, stream=True).raw).convert('RGB'), img_source) if
-                #         bi.valid_extension(img_source) else bi.invalid_msg(img_source) for img_source in self.urls]
 
-            try:
-                if utils.is_dir(img_source):
-                    results.append(((Image.open(img_source)).convert("RGB"), img_source))
-            except PermissionError:
-                print(f'The given directory, "{img_source}," is opened and cannot be read. Please close it for it to '
-                      f'be usable.\nThe application will terminate. Please run again.')
-                sys.exit()
-        #
-        #     return [(Image.open(os.path.join(user_input, img_source)).convert("RGB"),
-        #              os.path.join(user_input, os.path.basename(img_source))) if bi.valid_extension(img_source) else
-        #             bi.invalid_msg(img_source) for img_source in os.listdir(user_input)]
+            if utils.is_dir(img_source):
+                results.append(((Image.open(img_source)).convert("RGB"), img_source))
 
         return results
 
     def process_input(self, image_sources: list[str]) -> None:
         utils.clear()
-        print('Checking input...')
+        print('Checking input...\n')
         filtered_input: list[str] = utils.filter_and_validate(image_sources)
 
         processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
@@ -69,8 +54,9 @@ class ImageProcessor(object):
         # Receive the given input as a Pillow Image object and the given source
         images: list[tuple[Image, str]] | None = self.__source_to_image_object(filtered_input)
 
-        # remove any potential None values from the list
-        # images = bi.prune(images)
+        if len(images) == 0:
+            print('No provided input was valid. Nothing found to process.')
+            return
 
         print('Processing images...')
 
