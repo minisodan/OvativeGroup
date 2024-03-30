@@ -87,8 +87,10 @@ def validate_and_add_url(img_source: str, image_sources: list[str]) -> None:
     if is_valid_extension(extension):
         image_sources.append(img_source)
     else:
-        print(f'Invalid image URL with extension "{extension}" was found in  "{img_source}". This will not be '
-              f'processed. Valid extensions are: {__VALID_EXTENSIONS}')
+        extensions = ', '.join(__VALID_EXTENSIONS)
+        print(f'Invalid image URL with extension "{extension}" was found in  "{img_source}".', 'This will not be '
+              f'processed. Valid extensions are: "{extensions}".', sep='\n')
+
 
 
 def validate_and_add_files(directory: str, image_sources: list[str]) -> None:
@@ -100,25 +102,17 @@ def validate_and_add_files(directory: str, image_sources: list[str]) -> None:
     :return:
     """
 
-    # used to send a warning message to the user
-    success: bool = False
-
     for file_name in os.listdir(directory):
         # get the file extension by splitting the file name and accessing the extension past the "."
         extension: str = os.path.splitext(file_name)[1].split('.')[1]
 
         if extension not in __VALID_EXTENSIONS:
-            return
+            print(f'Invalid image source "{file_name}" in directory: "{directory}" was given.\n'
+                  f'This will not be processed.\n')
+            continue
 
         file_path = os.path.join(directory, file_name)
         image_sources.append(file_path)
-
-        print(image_sources)
-
-        success = True
-
-    if not success:
-        print(f'Invalid image source in directory: "{directory}" was given. This will not be processed.')
 
 
 def is_valid_extension(img_source: str) -> bool:
@@ -146,5 +140,5 @@ def filter_and_validate(image_sources: list[str]) -> list[str]:
         elif os.path.isdir(image_source):
             validate_and_add_files(image_source, results)
         else:
-            print(f'{image_source} is not a valid input. This will not be processed.')
+            print(f'{image_source} is not a valid input. This will not be processed.\n')
     return results
