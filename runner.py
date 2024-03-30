@@ -1,5 +1,5 @@
 import utils
-from app.image_caption_generator import start
+from app.input_manager import start
 
 
 """
