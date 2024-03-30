@@ -6,16 +6,15 @@ import validators
 Utility functions used for the application. Helps to abstract some functions from the other files.
 """
 
+__VALID_EXTENSIONS = ['jpeg', 'jpg', 'png', 'tiff', 'raw', 'webp']
+
 
 def clear():
-    """
-    This will clear the terminal of any previously printed output.
-    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def quitting(given_input: str) -> bool:
-    return given_input.lower() in ['q', 'quit']
+def quitting(user_input: str) -> bool:
+    return user_input.lower() in ['q', 'quit']
 
 
 def end() -> None:
@@ -24,50 +23,33 @@ def end() -> None:
     sys.exit()
 
 
-def is_dir(given_input: str) -> bool:
+def is_dir(directory: str) -> bool:
     """
-    This method checks if the user's input is an existing, local directory.
-    :return: True or False
+    Checks if the given value is an existing, local directory.
+
+    :param directory: possible directory path
+    :return: True if value is an existing directory, False otherwise
     """
+    return os.path.exists(directory)
 
-    return os.path.exists(given_input)
 
-
-def is_url(given_input: str) -> bool:
+def is_url(image_url: str) -> bool:
     """
-    This method checks if the user's input contains a valid URL(s). Many URL may be given at a time.
-    :return: True or False
-    """
+    Checks if the given value is a valid URL.
 
-    urls: list[str] = given_input.split(', ')
-
-    valid: bool = True
-
-    for url in urls:
-        if not validators.url(url):
-            valid = False
-            break
-
-    return valid
-
-
-def invalid_msg(given_input: str) -> None:
-    """
-    If the user input is completely invalid, prompt the user again to provide proper input.
+    :param image_url: url of the given image.
     :return:
     """
-    clear()
-    print(f'Invalid input, "{given_input}", was given.')
+    return validators.url(image_url)
 
 
-def clean_url(given_input: str) -> str:
+def clean_url(user_input: str) -> str:
     """
     If the given URL contains 'www,' add 'https://' to the beginning of the string so the model recognizes it.
     :return: None
     """
-
-    if given_input[0:3] == 'www':
-        return 'https://' + given_input
+    if user_input[0:3] == 'www':
+        return 'https://' + user_input
 
 
 def create_dir() -> str:
@@ -89,5 +71,80 @@ def create_dir() -> str:
     return path
 
 
-def user_input(given_input: str) -> str:
-    return given_input
+def validate_and_add_url(img_source: str, image_sources: list[str]) -> None:
+    """
+    Check if the user's input contains a valid file extension via :func:`is_valid_extension`
+    and extend the images into the list being passed in.
+
+    :param image_sources: a list of sources that will be added to if the img_source is valid
+    :param img_source: String representing the url of the image.
+    :return: none
+    """
+
+    extension: str = img_source[::-1].split('.')[0][::-1]
+
+    # check if the file extension is valid
+    if is_valid_extension(extension):
+        image_sources.append(img_source)
+    else:
+        print(f'Invalid image URL with extension "{extension}" was found in  "{img_source}". This will not be '
+              f'processed. Valid extensions are: {__VALID_EXTENSIONS}')
+
+
+def validate_and_add_files(directory: str, image_sources: list[str]) -> None:
+    """
+    Each file in the given directory is validated to see if the model can use it. If so, its absolute path is written
+    to the
+    :param directory: Path of the directory with image files to be validated
+    :param image_sources: A list that contains all sources for images (urls or filenames)
+    :return:
+    """
+
+    # used to send a warning message to the user
+    success: bool = False
+
+    for file_name in os.listdir(directory):
+        # get the file extension by splitting the file name and accessing the extension past the "."
+        extension: str = os.path.splitext(file_name)[1].split('.')[1]
+
+        if extension not in __VALID_EXTENSIONS:
+            return
+
+        file_path = os.path.join(directory, file_name)
+        image_sources.append(file_path)
+
+        print(image_sources)
+
+        success = True
+
+    if not success:
+        print(f'Invalid image source in directory: "{directory}" was given. This will not be processed.')
+
+
+def is_valid_extension(img_source: str) -> bool:
+    """
+     Checks if the user's input contains a valid file extension in the given string
+     :param img_source: source of the given image with file extension.
+     :return: none
+     """
+
+    # reverse the string, get the backwards file extension, and then re-reverse the extension back to normal and
+    # check if the extension is in list of valid extensions.
+    extension: str = img_source[::-1].split('.')[0][::-1]
+
+    valid: bool = extension in __VALID_EXTENSIONS
+
+    return valid
+
+
+def filter_and_validate(image_sources: list[str]) -> list[str]:
+    results: list[str] = []
+
+    for image_source in image_sources:
+        if is_url(image_source):
+            validate_and_add_url(image_source, results)
+        elif os.path.isdir(image_source):
+            validate_and_add_files(image_source, results)
+        else:
+            print(f'{image_source} is not a valid input. This will not be processed.')
+    return results
