@@ -14,6 +14,7 @@ def caption_image(img: Image, img_source: str, processor, model) -> None:
     :param model:
     :return: None
     """
+
     # Conditional image captioning
     text = "a photo of"
     inputs = processor(img, text, return_tensors="pt")
@@ -29,10 +30,10 @@ def caption_image(img: Image, img_source: str, processor, model) -> None:
     unc_caption: str = 'Unconditional image caption: ' + processor.decode(out[0], skip_special_tokens=True)
     print(unc_caption, end='\n\n')
 
-    store_image(utils.create_dir(), img_source, con_caption, unc_caption)
+    store_caption(utils.create_dir(), img_source, con_caption, unc_caption)
 
 
-def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) -> None:
+def store_caption(path: str, img_source: str, con_caption: str, unc_caption: str) -> None:
     """
     Stores the given captions of the given image in a file. Creates a new folder on the local device if that path
     doesn't already exist.
@@ -44,7 +45,7 @@ def store_image(path: str, img_source: str, con_caption: str, unc_caption: str) 
     """
 
     current_time: datetime = datetime.datetime.now()
-    file_name: str = current_time.strftime("%Y-%m-%d %H-%M-%S") + '.txt'
+    file_name: str = current_time.strftime("%Y-%m-%d %H-%M-%S") + '.csv'
 
     with open(os.path.join(path, file_name), 'a') as file:
         file.write(f'Image source: {img_source}\n'

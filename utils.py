@@ -92,7 +92,6 @@ def validate_and_add_url(img_source: str, image_sources: list[str]) -> None:
               f'processed. Valid extensions are: "{extensions}".', sep='\n')
 
 
-
 def validate_and_add_files(directory: str, image_sources: list[str]) -> None:
     """
     Each file in the given directory is validated to see if the model can use it. If so, its absolute path is written
