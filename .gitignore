@@ -1,7 +1,10 @@
 # PyCharm specifics
 .idea
+runner.cpython-312.pyc
+utils.cpython-312.pyc
 .pyc
 .xml
 .iml
 __pycache__
+app\__pycache__
 .idea\misc.xml

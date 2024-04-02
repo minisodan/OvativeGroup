@@ -34,20 +34,24 @@ def start():
             utils.end()
             return
 
-        processor.process_input(inputs)
+        success: bool = processor.process_input(inputs)
 
         inputs.clear()  # clearing elements to reprompt users to possibly provide more images to keep the while loop
-        reprompt(inputs)
+        reprompt(inputs, success)
 
 
-def reprompt(inputs: list[str]) -> None:
+def reprompt(inputs: list[str], success: bool) -> None:
     """
     Asks the user if they would like to continue using the application. If not, the application terminates.
+    :param success: represents a successful completion of the image processing
     :param inputs: list of inputs from the previous cycle of images processed
     :return: None
     """
+
+    msg: str = 'Would you like to provide more images? (y/n)' if success else 'Would you like to try again?'
+
     if len(inputs) == 0:
-        print('\nWould you like to provide more images? (y/n)')
+        print(f'\n{msg}')
         user_input = input('\n> ')
 
         if user_input.lower() in ['n', 'no', 'q', 'quit']:
