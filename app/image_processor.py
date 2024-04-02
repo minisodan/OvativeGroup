@@ -1,5 +1,6 @@
 import csv
 import datetime
+import os.path
 
 import requests
 import torch
@@ -7,7 +8,6 @@ from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
 from tqdm import tqdm
-import time
 
 import utils
 from models import blip_image as bi
@@ -105,12 +105,18 @@ class ImageProcessor(object):
         return success
 
     def store_outputs(self, rows: list[dict]) -> bool:
+        # a boolean representing if the output file exists; using `open` creates the file immediately
+        file_exists: bool = os.path.isfile(utils.output_file_path())
+
         try:
             with open(utils.output_file_path(), 'a') as file:
 
                 # create a writer object to write the given rows in the csv file
                 writer = csv.DictWriter(file, fieldnames=rows[0].keys())
-                writer.writeheader()
+
+                # only write the column headers if the file was created for the first time
+                if not file_exists:
+                    writer.writeheader()
 
                 for row in rows:
                     writer.writerow(row)
