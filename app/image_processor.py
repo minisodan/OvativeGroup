@@ -1,7 +1,13 @@
+import csv
+import datetime
+
 import requests
 import torch
 from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
+
+from tqdm import tqdm
+import time
 
 import utils
 from models import blip_image as bi
@@ -41,9 +47,17 @@ class ImageProcessor(object):
 
         return results
 
-    def process_input(self, image_sources: list[str]) -> None:
+    def process_input(self, image_sources: list[str]) -> bool:
+        """
+        This method handles the logic for processing images. It will return a boolean indicating a successful
+        processing of the images.
+        :param image_sources: A list of image URLs or directory paths to be processed
+        :return: True or False
+        """
+        success = False
+
         utils.clear()
-        print('Checking input...\n')
+        print('Checking input...\nThis may take a while if many images were provided.')
         filtered_input: list[str] = utils.filter_and_validate(image_sources)
 
         processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
@@ -54,12 +68,59 @@ class ImageProcessor(object):
 
         if len(images) == 0:
             print('No provided input was valid. Nothing found to process.')
-            return
+            return False
 
-        print('Processing images...')
+        utils.clear()
+        print('Processing images...\n')
 
-        for img, img_source in images:
-            print()  # to space the captions generated in the terminal
+        utils.create_dir()
 
-            bi.caption_image(img, img_source, processor, model)
-            bi.break_line()
+        # a list representing the names of each column in the generated csv file
+        fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Date Processed',
+                                 'Time Processed']
+
+        # used to store generated outputs from the models
+        # tuples are formed as (generated caption(s), image source)
+        rows: list[dict] = []
+        values: list[str]
+
+        print()  # to space the captions generated in the terminal
+
+        for img, img_source in tqdm(images, desc='Progress', ascii=False):
+
+            # collect all data/captions from the models *before* adding the information to the rows dict
+            captions: tuple[str, str] = bi.caption_image(img, processor, model)
+
+            # get the current date and time the photos were processed
+            date: str = datetime.datetime.now().strftime('%Y-%m-%d')
+            current_time: str = datetime.datetime.now().strftime('%H:%M:%S')
+
+            # the values used to store in the rows dict
+            values = [img_source, captions[0], captions[1], date, current_time]
+
+            rows.append({k: v for (k, v) in zip(fieldnames, values)})
+
+        success = self.store_outputs(rows)
+
+        return success
+
+    def store_outputs(self, rows: list[dict]) -> bool:
+        try:
+            with open(utils.output_file_path(), 'a') as file:
+
+                # create a writer object to write the given rows in the csv file
+                writer = csv.DictWriter(file, fieldnames=rows[0].keys())
+                writer.writeheader()
+
+                for row in rows:
+                    writer.writerow(row)
+
+                print('Data stored successfully.')
+
+            return True
+        except PermissionError:
+            utils.clear()
+            print(f'WARNING: the file located at "{utils.output_file_path()}" is open and is preventing any data from '
+                  f'being saved.', 'Please close it and try again.', sep='\n')
+
+            return False

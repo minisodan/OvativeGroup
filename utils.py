@@ -8,6 +8,13 @@ Utility functions used for the application. Helps to abstract some functions fro
 
 __VALID_EXTENSIONS = ['jpeg', 'jpg', 'png', 'tiff', 'raw', 'webp']
 
+__parent_dir: str = os.path.join(os.path.expanduser('~'), 'Desktop')
+__directory: str = 'Ovative Group Caption Generator'
+__filename: str = 'outputs.csv'
+
+# The generated directory path used to store outputs (e.g., C:/Users/user_name/Desktop/Ovative Group Caption Generator)
+__GEN_PATH: str = os.path.join(__parent_dir, __directory)
+
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -21,6 +28,14 @@ def end() -> None:
     clear()
     print('Ending program.')
     sys.exit()
+
+
+def break_line():
+    """
+    A break line that's used to help separate the outputs.
+    :return:
+    """
+    print('\n-----------------------------------------------------------------------')
 
 
 def is_dir(directory: str) -> bool:
@@ -51,24 +66,25 @@ def clean_url(user_input: str) -> str:
     if user_input[0:3] == 'www':
         return 'https://' + user_input
 
+    # must specify returning the original input to prevent returning None
+    return user_input
 
-def create_dir() -> str:
+
+def create_dir() -> None:
     """
     Creates the directory the inputs will be stored in and return that directory string.
     :return: string representing the created folder directory
     """
 
-    # User's directory (e.g., C:/Users/example_user_name/)
-    parent_dir: str = os.path.join(os.path.expanduser('~'), 'Desktop')
-    directory: str = 'Ovative Group Caption Generator'
-    path: str = os.path.join(parent_dir, directory)
+    if not os.path.exists(__GEN_PATH):
+        os.makedirs(__GEN_PATH)  # make directory if it doesn't exist already
+        print(f'Created a new directory, "{__GEN_PATH}", to store generated captions.')
+    else:
+        print(f'Generated outputs will be stored in the "{__GEN_PATH}" directory.')
 
-    if not os.path.exists(path):
-        clear()
-        os.makedirs(path)  # make directory if it doesn't exist already
-        print(f'Created new directory, "{path}", to store generated captions.\n')
 
-    return path
+def output_file_path() -> str:
+    return os.path.join(__GEN_PATH, __filename)
 
 
 def validate_and_add_url(img_source: str, image_sources: list[str]) -> None:
@@ -85,11 +101,11 @@ def validate_and_add_url(img_source: str, image_sources: list[str]) -> None:
 
     # check if the file extension is valid
     if is_valid_extension(extension):
-        image_sources.append(img_source)
+        image_sources.append(clean_url(img_source))  # add "https://" if the url starts with "www"; add it to the list
     else:
         extensions = ', '.join(__VALID_EXTENSIONS)
-        print(f'Invalid image URL with extension "{extension}" was found in  "{img_source}".', 'This will not be '
-              f'processed. Valid extensions are: "{extensions}".', sep='\n')
+        print(f'Invalid image URL with extension "{extension}" was found in  "{img_source}".',
+              'fThis will not be processed. Valid extensions are: "{extensions}".', sep='\n')
 
 
 def validate_and_add_files(directory: str, image_sources: list[str]) -> None:
