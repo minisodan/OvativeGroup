@@ -1,16 +1,22 @@
 import csv
 import datetime
 import os.path
+import easyocr
+import pandas as pd
 
 import requests
 import torch
-from PIL import Image
+from PIL import Image, ImageDraw
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
 from tqdm import tqdm
+from io import BytesIO
 
 import utils
 from models import blip_image as bi
+import numpy as np
+
+from models.easy_ocr import inference
 
 
 class ImageProcessor(object):
@@ -94,6 +100,13 @@ class ImageProcessor(object):
             # get the current date and time the photos were processed
             date: str = datetime.datetime.now().strftime('%Y-%m-%d')
             current_time: str = datetime.datetime.now().strftime('%H:%M:%S')
+
+            lang = 'en'  # NOTE
+
+            # code from the OCR
+            words = inference(img_source, lang)
+            print(f"Detected Words in {img_source} (confidence > 30%):")
+            print(words)
 
             # the values used to store in the rows dict
             values = [img_source, captions[0], captions[1], date, current_time]
