@@ -1,8 +1,6 @@
 import csv
 import datetime
 import os.path
-import easyocr
-import pandas as pd
 
 import requests
 import torch
@@ -10,11 +8,9 @@ from PIL import Image, ImageDraw
 from transformers import BlipProcessor, BlipForConditionalGeneration
 
 from tqdm import tqdm
-from io import BytesIO
 
 import utils
 from models import blip_image as bi
-import numpy as np
 
 from models.easy_ocr import inference
 
