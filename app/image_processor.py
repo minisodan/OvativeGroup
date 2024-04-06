@@ -76,8 +76,8 @@ class ImageProcessor(object):
 
         utils.create_dir()
 
-        # a list representing the names of each column in the generated csv file
-        fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Text Found in Output',
+        # a list representing the names of each column in the generated .csv file
+        fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Text Found in Image',
                                  'Date Processed', 'Time Processed']
 
         # used to store generated outputs from the models
@@ -92,6 +92,7 @@ class ImageProcessor(object):
             # collect all data/captions from the models *before* adding the information to the rows dict
             captions: tuple[str, str] = bi.caption_image(img, processor, model)
 
+            # get the list of all words found in the image
             ocr_output: list[str] = easy_ocr.inference(img_source)
 
             # get the current date and time the photos were processed
@@ -108,6 +109,11 @@ class ImageProcessor(object):
         return success
 
     def store_outputs(self, rows: list[dict]) -> bool:
+        """
+        Store all the given data in their respective columns the .csv file.
+        :param rows: a list of dictionaries, where each dict is a row in the .csv file
+        :return: True or False for successfully storing the data
+        """
         # a boolean representing if the output file exists; using `open` creates the file immediately
         file_exists: bool = os.path.isfile(utils.output_file_path())
 
@@ -124,7 +130,7 @@ class ImageProcessor(object):
                 for row in rows:
                     writer.writerow(row)
 
-                print('Data stored successfully.')
+                print('Data stored successfully')
 
             return True
         except PermissionError:
