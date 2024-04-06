@@ -31,15 +31,3 @@ def inference(img_source, lang='en'):
     df = pd.DataFrame(bounds, columns=['Position', 'Text', 'Confidence'])
     filtered_df = df[df['Confidence'] > 0.3]
     return filtered_df['Text'].tolist()
-
-
-if __name__ == "__main__":
-    # Input as many image sources (URLs or local paths) separated by commas
-    image_sources = input("Enter image URLs or paths, separated by commas: ").split(',')
-    lang = 'en'
-
-    for img_source in image_sources:
-        img_source = img_source.strip()  # Remove any leading/trailing whitespace
-        words = inference(img_source, lang)
-        print(f"Detected Words in {img_source} (confidence > 30%):")
-        print(words)
