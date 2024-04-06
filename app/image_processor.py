@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 import utils
 from models import blip_image as bi
+from models import easy_ocr
 
 
 class ImageProcessor(object):
@@ -76,8 +77,8 @@ class ImageProcessor(object):
         utils.create_dir()
 
         # a list representing the names of each column in the generated csv file
-        fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Date Processed',
-                                 'Time Processed']
+        fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Text Found in Output',
+                                 'Date Processed', 'Time Processed']
 
         # used to store generated outputs from the models
         # tuples are formed as (generated caption(s), image source)
@@ -91,12 +92,14 @@ class ImageProcessor(object):
             # collect all data/captions from the models *before* adding the information to the rows dict
             captions: tuple[str, str] = bi.caption_image(img, processor, model)
 
+            ocr_output: list[str] = easy_ocr.inference(img_source)
+
             # get the current date and time the photos were processed
             date: str = datetime.datetime.now().strftime('%Y-%m-%d')
             current_time: str = datetime.datetime.now().strftime('%H:%M:%S')
 
             # the values used to store in the rows dict
-            values = [img_source, captions[0], captions[1], date, current_time]
+            values = [img_source, captions[0], captions[1], ocr_output, date, current_time]
 
             rows.append({k: v for (k, v) in zip(fieldnames, values)})
 

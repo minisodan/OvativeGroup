@@ -29,6 +29,7 @@ def start():
               'again.')
         sys.exit()
 
+    # start looping over the given image sources (if applicable)
     while len(inputs) != 0:
         if utils.quitting(user_input):
             utils.end()
