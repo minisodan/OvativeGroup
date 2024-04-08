@@ -1,6 +1,4 @@
 from PIL import Image
-import datetime
-import os
 
 
 def caption_image(img: Image, processor, model) -> tuple[str, str]:
