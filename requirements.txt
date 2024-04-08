@@ -1,6 +1,10 @@
 pillow~=10.2.0
-pytorch~=2.1.0
+torch~=2.1.0
 requests~=2.31.0
 validators~=0.18.2
 pillow~=10.2.0
 transformers~=4.32.1
+numpy~=1.26.3
+opencv-python-headless<4.3
+gradio
+easyocr
