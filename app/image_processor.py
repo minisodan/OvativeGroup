@@ -93,21 +93,11 @@ class ImageProcessor(object):
 
         for img, img_source in tqdm(images, desc='Progress', ascii=False):
             # multithreading for speed and efficiency
-
-            # t1 = threading.Thread(target=bi.caption_image, args=(img, processor, model,))
             t1 = BlipImageThread(img)
-            # t2 = threading.Thread(target=easy_ocr.inference, args=(img_source,))
             t2 = EasyOcrThread(img_source)
-
-            t3 = threading.Thread(target=cohere.coherence, args=(captions[0], captions[1], ocr_output))
 
             t1.start()
             t2.start()
-            t3.start()
-
-            t1.join()
-            t2.join()
-            t3.join()
 
             # collect all data/captions from the models *before* adding the information to the rows dict
             captions: tuple[str, str] = t1.captions
@@ -115,7 +105,8 @@ class ImageProcessor(object):
             # get the list of all words found in the image
             ocr_output: list[str] = t2.ocr_output
 
-            # compiled_output: str = cohere.coherence(captions[0], captions[1], ocr_output)
+            # Use Large Language Model (Cohere) to compile output and give deeper context
+            compiled_output: str = cohere.coherence(captions[0], captions[1], ocr_output)
 
             # get the current date and time the photos were processed
             date: str = datetime.datetime.now().strftime('%Y-%m-%d')
@@ -125,6 +116,10 @@ class ImageProcessor(object):
             values = [img_source, captions[0], captions[1], ocr_output, compiled_output, date, current_time]
 
             rows.append({k: v for (k, v) in zip(fieldnames, values)})
+
+            # Suspend threads
+            t1.join()
+            t2.join()
 
         success = self.store_outputs(rows)
 

@@ -1,6 +1,6 @@
 import threading
 
-from models import easy_ocr as ocr
+from models import easy_ocr as ocr, easy_ocr
 
 
 class EasyOcrThread(threading.Thread):
@@ -15,8 +15,8 @@ class EasyOcrThread(threading.Thread):
         # execute the base constructor
         threading.Thread.__init__(self)
 
-        self.ocr_output: list[str]
-        self.img_source: str
+        self.img_source: str = img_source
+        self.ocr_output: list[str] = easy_ocr.inference(self.img_source)
 
     @property
     def ocr_output(self) -> list[str]:
@@ -30,12 +30,10 @@ class EasyOcrThread(threading.Thread):
                              f'{type(ocr_output)}')
 
         # check if every item in the list is a string
-        if not any(isinstance(ocr_output, str) for outputs in ocr_output):
+        if not any(isinstance(outputs, str) for outputs in ocr_output):
             raise ValueError(f'{self.__class__.__name__}.ocr_output must be a list of strings. The passed in value '
                              f'was {ocr_output}')
-
         self.__ocr_output = ocr_output
-
 
     # function to execute easyOCR Thread
     def run(self):
