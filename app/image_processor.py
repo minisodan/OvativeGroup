@@ -9,10 +9,13 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 
 from tqdm import tqdm
 
+import threading
 import utils
 from models import blip_image as bi
 from models import easy_ocr
 from models import cohere
+from threads.blip_image_thread import BlipImageThread
+from threads.easy_ocr_thread import EasyOcrThread
 
 
 class ImageProcessor(object):
@@ -62,8 +65,8 @@ class ImageProcessor(object):
         print('Checking input...\nThis may take a while if many images were provided.')
         filtered_input: list[str] = utils.filter_and_validate(image_sources)
 
-        processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
-        model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
+        # processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
+        # model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
         # Receive the given input as a Pillow Image object and the given source
         images: list[tuple[Image, str]] | None = self.__source_to_image_object(filtered_input)
@@ -89,21 +92,37 @@ class ImageProcessor(object):
         print()  # to space the captions generated in the terminal
 
         for img, img_source in tqdm(images, desc='Progress', ascii=False):
+            # multithreading for speed and efficiency
+
+            # t1 = threading.Thread(target=bi.caption_image, args=(img, processor, model,))
+            t1 = BlipImageThread(img)
+            # t2 = threading.Thread(target=easy_ocr.inference, args=(img_source,))
+            t2 = EasyOcrThread(img_source)
+
+            t3 = threading.Thread(target=cohere.coherence, args=(captions[0], captions[1], ocr_output))
+
+            t1.start()
+            t2.start()
+            t3.start()
+
+            t1.join()
+            t2.join()
+            t3.join()
 
             # collect all data/captions from the models *before* adding the information to the rows dict
-            captions: tuple[str, str] = bi.caption_image(img, processor, model)
+            captions: tuple[str, str] = t1.captions
 
             # get the list of all words found in the image
-            ocr_output: list[str] = easy_ocr.inference(img_source)
+            ocr_output: list[str] = t2.ocr_output
 
-            compiled_output: str = cohere.coherence(captions[0], captions[1], ocr_output)
+            # compiled_output: str = cohere.coherence(captions[0], captions[1], ocr_output)
 
             # get the current date and time the photos were processed
             date: str = datetime.datetime.now().strftime('%Y-%m-%d')
             current_time: str = datetime.datetime.now().strftime('%H:%M:%S')
 
             # the values used to store in the rows dict
-            values = [img_source, captions[0], captions[1], ocr_output, compiled_output , date, current_time]
+            values = [img_source, captions[0], captions[1], ocr_output, compiled_output, date, current_time]
 
             rows.append({k: v for (k, v) in zip(fieldnames, values)})
 
