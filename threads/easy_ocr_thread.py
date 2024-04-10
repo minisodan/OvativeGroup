@@ -1,5 +1,4 @@
 import threading
-
 from models import easy_ocr as ocr, easy_ocr
 
 

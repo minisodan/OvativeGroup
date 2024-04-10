@@ -3,7 +3,6 @@ import sys
 import utils
 from app.image_processor import ImageProcessor
 
-
 """
 This file is used to start the application. The start method is used in the runner.py file, which will ask the user for 
 input once started.

@@ -17,11 +17,21 @@ def coherence(con_caption: str, unc_caption: str, ocr_output: list[str]) -> str:
                 f"adhere to the following guidelines to ensure the quality and relevance of your output: Generalize "
                 f"Brand References: If the inputs do not specify a brand, avoid using specific brand names in your "
                 f"description. For example, if the input pertains to a beer but does not mention a specific brand, "
-                f"refer to it as a 'beverage' or similar general term. Maintain Grammatical Integrity: Do not include "
+                f"refer to it as a 'beverage' or similar general term do not make any suggestions of what it might be."
+                f" Maintain Grammatical Integrity: Do not include "
                 f"any words in the final sentence that are grammatically incorrect. Ensure that the output is "
-                f"linguistically sound and follows standard grammar rules."
+                f"linguistically sound and follows standard grammar rules. Do Not Add Context When Context Is Not Give:"
+                f" an example of this might be speculating on the context around the image or adding elements "
+                f"when you are not given them."
+                f"If you are given any brands in the Optical Character Recognition output please use them: "
+                f"for example if you are given Colgate or Sprite, mention them in the output caption."
+                f"Start Every Caption With: 'The Advertisement seems to be '"
+                f"If You are Given a Celebrity Name Use It: Do NOT describe them and do not give extra "
+                f"context on the celebrity. Only say that they are in the Ad"
+                f"Final Guideline: ONLY respond with the caption you have generated and NOTHING more. DO NOT ask me how "
+                f"you can be more helpful I ONLY want you to provide the caption you will be generating."
                 f"these are captions of an image generated from the salesforce blip model: {con_caption},"
-                f"{unc_caption} and easyocr read the following words from the image: {ocr_output}",
+                f"{unc_caption} and easyocr read the following words from the image: {ocr_output}, ",
         model="command"
     )
 
