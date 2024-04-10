@@ -1,18 +1,11 @@
 import csv
 import datetime
 import os.path
-
 import requests
 import torch
 from PIL import Image
-from transformers import BlipProcessor, BlipForConditionalGeneration
-
 from tqdm import tqdm
-
-import threading
 import utils
-from models import blip_image as bi
-from models import easy_ocr
 from models import cohere
 from threads.blip_image_thread import BlipImageThread
 from threads.easy_ocr_thread import EasyOcrThread
