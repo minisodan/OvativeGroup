@@ -1,5 +1,4 @@
 import sys
-
 import utils
 from app.image_processor import ImageProcessor
 
