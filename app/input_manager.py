@@ -47,7 +47,7 @@ def reprompt(inputs: list[str], success: bool) -> None:
     :return: None
     """
 
-    msg: str = 'Would you like to provide more images? (y/n)' if success else 'Would you like to try again?'
+    msg: str = 'Would you like to provide more images? (y/n)' if success else 'Would you like to try again? (y/n)'
 
     if len(inputs) == 0:
         print(f'\n{msg}')

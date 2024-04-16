@@ -8,7 +8,7 @@ import numpy as np
 
 def download_image(image_url: str) -> Image:
     """
-    Downloads an into a processable format for the OCR. This code was given from the EasyOCR code
+    Downloads an image URL into a processable format for the OCR. This code was given from the EasyOCR code
     :param image_url: a string representing the URL to the image
     :return: an Image object created from the URL
     """

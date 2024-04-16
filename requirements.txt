@@ -6,7 +6,9 @@ pillow~=10.2.0
 transformers~=4.32.1
 cohere~=5.1.8
 numpy~=1.26.3
-opencv-python-headless<4.3
+opencv-python-headless<4.6
+ninja~=1.7.0
+opencv-contrib-python
 gradio
 easyocr
 easyocr~=1.7.1
