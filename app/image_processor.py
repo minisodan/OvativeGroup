@@ -1,10 +1,14 @@
 import csv
 import datetime
-import os.path
+import os
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 import requests
 import torch
 from PIL import Image
 from tqdm import tqdm
+
 import utils
 from models import cohere
 from threads.blip_image_thread import BlipImageThread
@@ -89,14 +93,19 @@ class ImageProcessor(object):
             t1 = BlipImageThread(img)
             t2 = EasyOcrThread(img_source)
 
+            # start the multithreading to have both time-intensive models work in parallel
             t1.start()
             t2.start()
+
+            # end both threads
+            t1.join()
+            t2.join()
 
             # collect all data/captions from the models *before* adding the information to the rows dict
             captions: tuple[str, str] = t1.captions
 
             # get the list of all words found in the image
-            ocr_output: list[str] = t2.ocr_output
+            ocr_output: list[str] | str = t2.ocr_output
 
             # Use Large Language Model (Cohere) to compile output and give deeper context
             compiled_output: str = cohere.coherence(captions[0], captions[1], ocr_output)
@@ -109,10 +118,6 @@ class ImageProcessor(object):
             values = [img_source, captions[0], captions[1], ocr_output, compiled_output, date, current_time]
 
             rows.append({k: v for (k, v) in zip(fieldnames, values)})
-
-            # Suspend threads
-            t1.join()
-            t2.join()
 
         success = self.store_outputs(rows)
 
@@ -140,7 +145,7 @@ class ImageProcessor(object):
                 for row in rows:
                     writer.writerow(row)
 
-                print('Data stored successfully')
+                print(f'\nData stored successfully in "{utils.output_file_path()}"')
 
             return True
         except PermissionError:

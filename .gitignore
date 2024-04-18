@@ -8,3 +8,7 @@ utils.cpython-312.pyc
 __pycache__
 app\__pycache__
 .idea\misc.xml
+build
+dist
+ogicg.egg-info
+src
