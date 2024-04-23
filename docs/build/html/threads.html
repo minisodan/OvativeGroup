@@ -6,8 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Threading &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
   
   
   
@@ -39,9 +40,10 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
-    <link rel="index" title="Index" href="#" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'threads';</script>
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Ovative Group Image Caption Generator’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -103,8 +105,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -145,8 +145,8 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Threading</a></li>
 </ul>
 
     </div>
@@ -188,6 +188,54 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/threads.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
 
 
 
@@ -235,7 +283,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1></h1>
+    <h1>Threading</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -249,12 +297,48 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
+  <section id="threading">
+<h1>Threading<a class="headerlink" href="#threading" title="Link to this heading">#</a></h1>
+<p>We have implemented multithreading into the project for effeciency.
+The way we have done this is by creating classes of the two models used
+in this project, so they many return an instance of a thread to be used in the
+<code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
+<blockquote>
+<div><p>The Cohere LLM does not have a multihreading implementation, as it needs to wait for the input
+from both the easyOCR and blip-image models.</p>
+</div></blockquote>
+<ul>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">blip_image_thread.py</span></code></dt><dd><p>Class that represents a thread instance salesforce BLIP image captioning model. Includes
+a basic constructor, along with setters and getters for properties needed to retun for the output
+as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
+<p>Contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function: returns the result of the BLIP image captioning model, which is needed
+for the CSV output.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">easy_ocr_thread.py</span></code></dt><dd><p>Class that represents a thread instance easyOCR model. Includes
+a basic constructor, along with setters and getters for properties needed to retun for the output
+as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
+<p>Also contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function: returns the result of the easyOCR  model, which is needed for the CSV output.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>We create the instances as threads in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file to run parallel:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">t1 = BlipImageThread(img)</span>
+<span class="go">t2 = EasyOcrThread(img_source)</span>
 
-<h1 id="index">Index</h1>
+<span class="go">t1.start()</span>
+<span class="go">t2.start()</span>
 
-<div class="genindex-jumpbox">
- 
+<span class="gp"># </span>end<span class="w"> </span>both<span class="w"> </span>threads
+<span class="go">t1.join()</span>
+<span class="go">t2.join()</span>
+</pre></div>
 </div>
+</section>
 
 
                 </article>
@@ -267,6 +351,15 @@ document.write(`
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to Ovative Group Image Caption Generator’s documentation!</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
