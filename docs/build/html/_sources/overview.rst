@@ -13,7 +13,7 @@ Our integrated solution combines multiple technologies to process images, extrac
 
 - **Optical Character Recognition (OCR)**: Implements EasyOCR to detect and extract text from images with a confidence level above 30%.
 
-- **Language Understanding**: Employs the Cohere large language model to synthesize the outputs from the OCR and image captioning models into a coherent text description of each image.
+- **Caption Comprehension**: Employs the Cohere large language model to synthesize the outputs from the OCR and image captioning models into a coherent text description of each image.
 
 **Output**
 ----------
