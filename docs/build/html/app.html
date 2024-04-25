@@ -43,6 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'app';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utility Functions" href="utils.html" />
     <link rel="prev" title="Welcome to the Ovative Group Image Caption Generator’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -147,6 +148,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">App Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
 </ul>
 
     </div>
@@ -297,6 +301,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a></li>
 </ul>
             </nav>
         </div>
@@ -364,15 +369,36 @@ messaged is also printed to inform the user of what happened.</p>
     <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
-<p>Otherwise, the program will continue. Next, the application iterates through the list of tuples from
+<p>Otherwise, the program will continue and iterate through the list of tuples from
 <cite>__source_to_image_object()</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">img_source</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Progress&#39;</span><span class="p">,</span> <span class="n">ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </pre></div>
 </div>
 <p>The loop will access the image and the image source from every tuple in the list. This is to help with storing the
 information in the CSV at the end of the input cycle. The for loop uses (threading) to have the (Blip Image captioning)
-(model) and (OCR) run in tandem. These outputs from these models are then used in the (LLM) to make a cohesive output.
-All outputs, including the date and time of the process, are added to a dictionary to store the results in the CSV file.</p>
+(model) and (OCR) run in tandem. The outputs from these models are then used in the (LLM) to make a cohesive output.
+All outputs, including the date and time of the process, are added to a list. This list is then converted into a
+dictionary.</p>
+</section>
+<section id="storing-outputs">
+<h2>Storing Outputs<a class="headerlink" href="#storing-outputs" title="Link to this heading">#</a></h2>
+<p>To help with storing outputs, there is a variable called <cite>rows</cite> which is instantiated as an empty list. When populated,
+it will be a list of dictionaries.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># used to store generated outputs from the models</span>
+<span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>This will represent the rows of information that need to be written to the CSV file. It is populated at the end of the
+for loop in the <cite>process_input()</cite> method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fieldnames</span><span class="p">,</span> <span class="n">values</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>The fieldnames object is a list of strings that represents the names of the columns in the CSV file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># a list representing the names of each column in the generated .csv file</span>
+<span class="n">fieldnames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Image Source&#39;</span><span class="p">,</span> <span class="s1">&#39;Conditional Caption&#39;</span><span class="p">,</span> <span class="s1">&#39;Unconditional Caption&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Found in Image&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;Compiled Output&#39;</span><span class="p">,</span> <span class="s1">&#39;Date Processed&#39;</span><span class="p">,</span> <span class="s1">&#39;Time Processed&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <hr class="docutils" />
 <p><code class="docutils literal notranslate"><span class="pre">store_outputs()</span></code>
 This method takes a list of dictionaries as a parameter. Each dictionary in the list represents a row to be added to the
@@ -415,6 +441,15 @@ them. Otherwise, they won’t be written.</p>
         <p class="prev-next-title">Welcome to the Ovative Group Image Caption Generator’s documentation!</p>
       </div>
     </a>
+    <a class="right-next"
+       href="utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utility Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -433,6 +468,7 @@ them. Otherwise, they won’t be written.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a></li>
 </ul>
   </nav></div>
 

@@ -73,17 +73,46 @@ messaged is also printed to inform the user of what happened.
         print('No provided input was valid. Nothing found to process.')
         return False
 
-Otherwise, the program will continue. Next, the application iterates through the list of tuples from
+Otherwise, the program will continue and iterate through the list of tuples from
 `__source_to_image_object()`.
 
 .. code-block:: python
 
     for img, img_source in tqdm(images, desc='Progress', ascii=False):
 
+
 The loop will access the image and the image source from every tuple in the list. This is to help with storing the
 information in the CSV at the end of the input cycle. The for loop uses (threading) to have the (Blip Image captioning)
-(model) and (OCR) run in tandem. These outputs from these models are then used in the (LLM) to make a cohesive output.
-All outputs, including the date and time of the process, are added to a dictionary to store the results in the CSV file.
+(model) and (OCR) run in tandem. The outputs from these models are then used in the (LLM) to make a cohesive output.
+All outputs, including the date and time of the process, are added to a list. This list is then converted into a
+dictionary.
+
+
+Storing Outputs
+---------------
+
+To help with storing outputs, there is a variable called `rows` which is instantiated as an empty list. When populated,
+it will be a list of dictionaries.
+
+.. code-block:: python
+
+    # used to store generated outputs from the models
+    rows: list[dict] = []
+
+This will represent the rows of information that need to be written to the CSV file. It is populated at the end of the
+for loop in the `process_input()` method.
+
+.. code-block:: python
+
+    rows.append({k: v for (k, v) in zip(fieldnames, values)})
+
+The fieldnames object is a list of strings that represents the names of the columns in the CSV file.
+
+.. code-block:: python
+
+    # a list representing the names of each column in the generated .csv file
+    fieldnames: list[str] = ['Image Source', 'Conditional Caption', 'Unconditional Caption', 'Text Found in Image',
+                             'Compiled Output', 'Date Processed', 'Time Processed']
 
 ----
 
