@@ -18,7 +18,7 @@ Our integrated solution combines multiple technologies to process images, extrac
 **Output**
 ----------
 
-All results are  recorded in a CSV file on your desktop. This structured dataset includes fields for the image source, captions, extracted text, and processing timestamps.
+All results are recorded in a CSV file on your desktop. This structured dataset includes fields for the image source, captions, extracted text, and processing timestamps.
 Running the program will create a folder with CSV in it unless it already exists.
 
 **Efficiency**
