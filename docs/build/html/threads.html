@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -43,7 +43,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'threads';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to Ovative Group Image Caption Generator’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -105,6 +104,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -145,8 +146,8 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Threading</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="app.html">App Module</a></li>
 </ul>
 
     </div>
@@ -314,17 +315,17 @@ from both the easyOCR and blip-image models.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">blip_image_thread.py</span></code></dt><dd><p>Class that represents a thread instance for the salesforce BLIP image captioning model. Includes
 a basic constructor:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def __init__(self, img: Image):</span>
-<span class="gp"># </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
-<span class="go">threading.Thread.__init__(self)</span>
+<span class="gp">    # </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
+<span class="go">    threading.Thread.__init__(self)</span>
 
-<span class="gp"># </span>instantiating<span class="w"> </span>captions<span class="w"> </span>container<span class="w"> </span><span class="k">for</span><span class="w"> </span>conditonal<span class="w"> </span>and<span class="w"> </span>unconditional<span class="w"> </span>outputs
-<span class="go">self.captions: tuple[str, str] = (&#39;&#39;, &#39;&#39;)</span>
+<span class="gp">    # </span>instantiating<span class="w"> </span>captions<span class="w"> </span>container<span class="w"> </span><span class="k">for</span><span class="w"> </span>conditonal<span class="w"> </span>and<span class="w"> </span>unconditional<span class="w"> </span>outputs
+<span class="go">    self.captions: tuple[str, str] = (&#39;&#39;, &#39;&#39;)</span>
 
-<span class="go">self.image: Image = img</span>
+<span class="go">    self.image: Image = img</span>
 
-<span class="gp"># </span>processer<span class="w"> </span>and<span class="w"> </span>model<span class="w"> </span>instantiation<span class="w"> </span>from<span class="w"> </span>blip_image.py<span class="w"> </span>class
-<span class="go">self.processor = BlipProcessor.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
-<span class="go">self.model = BlipForConditionalGeneration.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
+<span class="gp">    # </span>processer<span class="w"> </span>and<span class="w"> </span>model<span class="w"> </span>instantiation<span class="w"> </span>from<span class="w"> </span>blip_image.py<span class="w"> </span>class
+<span class="go">    self.processor = BlipProcessor.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
+<span class="go">    self.model = BlipForConditionalGeneration.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
 </pre></div>
 </div>
 <p>Along with getters for properties needed to return for the output
@@ -421,15 +422,6 @@ as shown in the <code class="docutils literal notranslate"><span class="pre">ima
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="index.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to Ovative Group Image Caption Generator’s documentation!</p>
-      </div>
-    </a>
 </div>
                 </footer>
               

@@ -18,17 +18,17 @@ in this project, so they many return an instance of a thread to be used in the
     .. code-block:: console
 
         def __init__(self, img: Image):
-        # execute the base constructor
-        threading.Thread.__init__(self)
+            # execute the base constructor
+            threading.Thread.__init__(self)
 
-        # instantiating captions container for conditonal and unconditional outputs
-        self.captions: tuple[str, str] = ('', '')
+            # instantiating captions container for conditonal and unconditional outputs
+            self.captions: tuple[str, str] = ('', '')
 
-        self.image: Image = img
+            self.image: Image = img
 
-        # processer and model instantiation from blip_image.py class
-        self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
-        self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
+            # processer and model instantiation from blip_image.py class
+            self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
+            self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
     Along with getters for properties needed to return for the output
     as shown in the ``image_processer.py`` file.

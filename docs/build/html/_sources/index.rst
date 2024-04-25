@@ -40,17 +40,11 @@ captions in one place to allow for easier analysis.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-   threads
-=======
-   utils
-=======
    Sources
->>>>>>> 48b1ab2805528defeab0031d44dabbde42a495c9
-
->>>>>>> fd57619a9ef852cf23975b9f428bc47ee69be315
+   Utils
+   Threads
+   app
 
 Indices and tables
 ==================
@@ -58,4 +52,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
