@@ -44,6 +44,7 @@ captions in one place to allow for easier analysis.
    Sources
    Utils
    Threads
+   app
 
 Indices and tables
 ==================
