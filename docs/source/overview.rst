@@ -4,9 +4,8 @@ Overview
 **Project Overview: Ovative Group Capstone**
 ----------------------------------------------------
 
-In this capstone project for Ovative Group, we have developed an in-house tool designed for the marketing team to speed up the processing of advertising images.
-Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, thereby optimizing the marketing workflow.
-
+This is our capstone project for Ovative Group, a terminal-based application designed as an in-house tool to help the marketing team rapidly process advertising images.
+Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, optimizing the marketing workflow.
 **Features**
 ------------
 
