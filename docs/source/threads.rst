@@ -10,15 +10,59 @@ in this project, so they many return an instance of a thread to be used in the
     from both the easyOCR and blip-image models.
 
 - ``blip_image_thread.py``
-    Class that represents a thread instance salesforce BLIP image captioning model. Includes
-    a basic constructor, along with setters and getters for properties needed to retun for the output
+    Class that represents a thread instance for the salesforce BLIP image captioning model. Includes
+    a basic constructor:
+
+    .. code-block:: console
+
+        def __init__(self, img: Image):
+        # execute the base constructor
+        threading.Thread.__init__(self)
+
+        # instantiating captions container for conditonal and unconditional outputs
+        self.captions: tuple[str, str] = ('', '')
+
+        self.image: Image = img
+
+        # processer and model instantiation from blip_image.py class
+        self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
+        self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
+
+    along with getters for properties needed to return for the output
     as shown in the ``image_processer.py`` file.
 
-    Contains a ``run`` function: returns the result of the BLIP image captioning model, which is needed
-    for the CSV output.
+    The setters for the caption and image properties have built-in with input validation, to ensure proper input:
+
+    .. code-block:: console
+
+        @captions.setter
+        def captions(self, captions: tuple[str, str]) -> None:
+            # check if the passed in variable is a tuple
+            if captions is None or not isinstance(captions, tuple):
+                raise ValueError(f'{self.__class__.__name__}.captions must be a tuple. The passed in value is of type '
+                                 f'{type(captions)}')
+
+            # check if every item in the tuple is a string
+            if not any(isinstance(caption, str) for caption in captions):
+                raise ValueError(f'{self.__class__.__name__}.captions must be a tuple of strings. The passed in value '
+                                 f'was {captions}')
+
+            self.__captions = captions
+
+    We do not have any getters/setters for the model and processer properties, as we will never need
+    to return instances of them not change them in any way.
+
+    Contains a ``run`` function that returns the result of the BLIP image captioning model, which is needed
+    for the CSV output:
+
+    .. code-block:: console
+
+        def run(self):
+        self.captions = bi.caption_image(self.image, self.processor, self.model)
+
 - ``easy_ocr_thread.py``
     Class that represents a thread instance easyOCR model. Includes
-    a basic constructor, along with setters and getters for properties needed to retun for the output
+    a basic constructor, along with setters and getters for properties needed to return for the output
     as shown in the ``image_processer.py`` file.
 
     Also contains a ``run`` function: returns the result of the easyOCR  model, which is needed for the CSV output.
