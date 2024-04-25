@@ -41,9 +41,9 @@ captions in one place to allow for easier analysis.
    :maxdepth: 2
    :caption: Contents:
 
-   Sources
-   Utils
-   Threads
+   sources
+   utils
+   threads
    app
 
 Indices and tables
