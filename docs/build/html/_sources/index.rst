@@ -43,9 +43,9 @@ captions in one place to allow for easier analysis.
 
    overview
    app
-   sources
-   utils
    threads
+   utils
+   sources
 
 Indices and tables
 ==================

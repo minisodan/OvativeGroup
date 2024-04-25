@@ -102,6 +102,7 @@ in this project, so they many return an instance of a thread to be used in the
             self.ocr_output = ocr.inference(self.img_source)
 
 |
+
 We create the instances as threads in the ``image_processer.py`` file to run parallel:
 
 .. code-block:: console
@@ -115,9 +116,3 @@ We create the instances as threads in the ``image_processer.py`` file to run par
     # end both threads
     t1.join()
     t2.join()
-
-
-
-
-
-

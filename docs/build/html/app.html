@@ -43,8 +43,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'app';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Utility Functions" href="utils.html" />
-    <link rel="prev" title="Welcome to the Ovative Group Image Caption Generator’s documentation!" href="index.html" />
+    <link rel="next" title="Threading" href="threads.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -147,9 +147,10 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">App Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
 </ul>
 
@@ -299,9 +300,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reprompt"><code class="docutils literal notranslate"><span class="pre">reprompt()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#source-to-image-object"><code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-input"><code class="docutils literal notranslate"><span class="pre">process_input()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store-outputs"><code class="docutils literal notranslate"><span class="pre">store_outputs()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -315,36 +327,72 @@ document.write(`
                   
   <section id="app-module">
 <h1>App Module<a class="headerlink" href="#app-module" title="Link to this heading">#</a></h1>
-<p>The <cite>App</cite> Module contains two files in it, <cite>image_processor.py</cite> and <cite>input_manager.py</cite>. When the application starts,
-it’s these two files that initiate the process of processing the given images and accepting user input respectively.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">app</span></code> module contains two files in it, <code class="docutils literal notranslate"><span class="pre">image_processor.py</span></code> and <code class="docutils literal notranslate"><span class="pre">input_manager.py</span></code>. When the application
+starts, these are the files that initiate the process of processing the given images and accepting user input
+respectively.</p>
 <section id="input-manager">
 <h2>Input Manager<a class="headerlink" href="#input-manager" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">start()</span></code>
-This method will start the application and is called in the <cite>runner.py</cite> file. It will first prompt the user for a
+<section id="start">
+<h3><code class="docutils literal notranslate"><span class="pre">start()</span></code><a class="headerlink" href="#start" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>To start the application, this method is called in the <code class="docutils literal notranslate"><span class="pre">runner.py</span></code> file. It will first prompt the user for a
 directory of images or a URL(s). A mix of both can be passed in, as long as each input is separated by a comma
 (e.g., URL, directory path, URL, URL).</p>
 <p>These inputs are added to a list that will be filtered in the (utils.py) file. That filtered list is then taken to the
 Image Processor class.</p>
+</section>
 <hr class="docutils" />
-<p><code class="docutils literal notranslate"><span class="pre">reprompt()</span></code>
-This method is called at the end of every input cycle (i.e., after the application has processed the given inputs).
-This takes a boolean parameter called <cite>success</cite>. This is to determine if the images in the <cite>image_processor.py</cite> file
-were successfully processed.</p>
+<section id="reprompt">
+<h3><code class="docutils literal notranslate"><span class="pre">reprompt()</span></code><a class="headerlink" href="#reprompt" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inputs:</span> <span class="pre">list[str],</span> <span class="pre">success:</span> <span class="pre">bool</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>At the end of every input cycle (i.e., after the application has processed the given inputs), this will be called to
+ask the user to provide further input if they wish to process more images. This takes a boolean parameter called
+<code class="docutils literal notranslate"><span class="pre">success</span></code>. This is to determine if the images in the <code class="docutils literal notranslate"><span class="pre">image_processor.py</span></code> file were successfully processed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Would you like to provide more images? (y/n)&#39;</span> <span class="k">if</span> <span class="n">success</span> <span class="k">else</span> <span class="s1">&#39;Would you like to try again? (y/n)&#39;</span>
 </pre></div>
 </div>
-<p>The <cite>success</cite> boolean will also determine which message to output to the user to be transparent as to what occurred.
+<p>The <code class="docutils literal notranslate"><span class="pre">success</span></code> boolean will also determine which message to output to the user to be transparent as to what occurred.
 If the processing was a success, it will simply ask if the user wants to provide more images; otherwise, it will ask
 if they would like to try again. Before asking the user to try again, another message is displayed from the
-<cite>image_processor.py</cite> file to explain what happened in more depth.</p>
+<code class="docutils literal notranslate"><span class="pre">image_processor.py</span></code> file to explain what happened in more depth.</p>
+</section>
 </section>
 <section id="image-processor">
 <h2>Image Processor<a class="headerlink" href="#image-processor" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">ImageProcessor</span></code> class is treated as a singleton. This is because only one instance is needed for the
 application’s lifecycle when it starts.</p>
-<p><code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code>
-The filtered list of inputs from the <cite>utils.py</cite> file will be passed to this method. This will convert every URL or image
-located in a directory into an Image object from the Pillow library.</p>
+<section id="source-to-image-object">
+<h3><code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code><a class="headerlink" href="#source-to-image-object" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">image_sources:</span> <span class="pre">list[str]</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">list[tuple[Image,</span> <span class="pre">str]]</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>The filtered list of inputs from the <code class="docutils literal notranslate"><span class="pre">`utils.py</span></code> file will be passed to this method. This will convert every URL or
+image located in a directory into an Image object from the Pillow library.</p>
 <p>When the images are converted to Image objects, they will be added to a list of tuples. The tuples pair the Image object
 with its given source.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Image</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -359,37 +407,50 @@ with its given source.</p>
 <span class="k">return</span> <span class="n">results</span>
 </pre></div>
 </div>
+</section>
 <hr class="docutils" />
-<p><code class="docutils literal notranslate"><span class="pre">process_input()</span></code>
-This method uses the list of tuples from the <cite>__source_to_image_object()</cite> to proceed with the application. If the list
-is empty (i.e., nothing could be converted to Image objects), the <cite>success</cite> boolean is set to False and is returned. A
-messaged is also printed to inform the user of what happened.</p>
+<section id="process-input">
+<h3><code class="docutils literal notranslate"><span class="pre">process_input()</span></code><a class="headerlink" href="#process-input" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">image_sources:</span> <span class="pre">list[str]</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>To proceed with the application, the list of tuples from the <code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code> method will be used. If the
+list is empty (i.e., nothing could be converted to Image objects), the <code class="docutils literal notranslate"><span class="pre">success</span></code> boolean is set to False and is
+returned. A messaged is also printed to inform the user of what happened.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No provided input was valid. Nothing found to process.&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
 <p>Otherwise, the program will continue and iterate through the list of tuples from
-<cite>__source_to_image_object()</cite>.</p>
+<code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">img_source</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Progress&#39;</span><span class="p">,</span> <span class="n">ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 </pre></div>
 </div>
 <p>The loop will access the image and the image source from every tuple in the list. This is to help with storing the
-information in the CSV at the end of the input cycle. The for loop uses (threading) to have the (Blip Image captioning)
-(model) and (OCR) run in tandem. The outputs from these models are then used in the (LLM) to make a cohesive output.
-All outputs, including the date and time of the process, are added to a list. This list is then converted into a
-dictionary.</p>
+information in the CSV at the end of the input cycle. The for loop uses <a class="reference internal" href="threads.html"><span class="doc">Threading</span></a> to have the
+(Blip Image captioning) (model) and (OCR) run in tandem. The outputs from these models are then used in the (LLM) to
+make a cohesive output. All outputs, including the date and time of the process, are added to a list. This list is then
+converted into a dictionary.</p>
+</section>
 </section>
 <section id="storing-outputs">
 <h2>Storing Outputs<a class="headerlink" href="#storing-outputs" title="Link to this heading">#</a></h2>
-<p>To help with storing outputs, there is a variable called <cite>rows</cite> which is instantiated as an empty list. When populated,
-it will be a list of dictionaries.</p>
+<p>To help with storing outputs, there is a variable called <code class="docutils literal notranslate"><span class="pre">rows</span></code> which is instantiated as an empty list. When
+populated, it will be a list of dictionaries.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># used to store generated outputs from the models</span>
 <span class="n">rows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
 <p>This will represent the rows of information that need to be written to the CSV file. It is populated at the end of the
-for loop in the <cite>process_input()</cite> method.</p>
+for loop in the <code class="docutils literal notranslate"><span class="pre">process_input()</span></code> method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fieldnames</span><span class="p">,</span> <span class="n">values</span><span class="p">)})</span>
 </pre></div>
 </div>
@@ -400,9 +461,20 @@ for loop in the <cite>process_input()</cite> method.</p>
 </pre></div>
 </div>
 <hr class="docutils" />
-<p><code class="docutils literal notranslate"><span class="pre">store_outputs()</span></code>
-This method takes a list of dictionaries as a parameter. Each dictionary in the list represents a row to be added to the
-CSV file.</p>
+<section id="store-outputs">
+<h3><code class="docutils literal notranslate"><span class="pre">store_outputs()</span></code><a class="headerlink" href="#store-outputs" title="Link to this heading">#</a></h3>
+<dl class="simple">
+<dt><strong>Parameters</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rows:</span> <span class="pre">list[dict]</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Returns</strong>:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>A list of dictionaries is taken as a parameter to this method. Each dictionary in the list represents a row to be added
+to the CSV file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a writer object to write the given rows in the csv file</span>
 <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
@@ -420,6 +492,7 @@ CSV file.</p>
 them. Otherwise, they won’t be written.</p>
 </section>
 </section>
+</section>
 
 
                 </article>
@@ -433,20 +506,20 @@ them. Otherwise, they won’t be written.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="overview.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Welcome to the Ovative Group Image Caption Generator’s documentation!</p>
+        <p class="prev-next-title">Overview</p>
       </div>
     </a>
     <a class="right-next"
-       href="utils.html"
+       href="threads.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Utility Functions</p>
+        <p class="prev-next-title">Threading</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -466,9 +539,20 @@ them. Otherwise, they won’t be written.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-manager">Input Manager</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reprompt"><code class="docutils literal notranslate"><span class="pre">reprompt()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processor">Image Processor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#source-to-image-object"><code class="docutils literal notranslate"><span class="pre">__source_to_image_object()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-input"><code class="docutils literal notranslate"><span class="pre">process_input()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-outputs">Storing Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store-outputs"><code class="docutils literal notranslate"><span class="pre">store_outputs()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
