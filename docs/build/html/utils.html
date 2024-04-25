@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to the Ovative Group Image Caption Generator’s documentation! &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
+    <title>Utility Functions &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
   
   
   
@@ -40,10 +40,9 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'utils';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,7 +122,7 @@
 
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="index.html">
   
   
   
@@ -149,9 +148,6 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 </ul>
 
     </div>
@@ -206,7 +202,7 @@
       
       
       
-      <li><a href="_sources/index.rst" target="_blank"
+      <li><a href="_sources/utils.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -290,7 +286,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to the Ovative Group Image Caption Generator’s documentation!</h1>
+    <h1>Utility Functions</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -300,14 +296,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Welcome to the Ovative Group Image Caption Generator’s documentation!</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The Problem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#our-solution">Our Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clear">clear()</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quitting-user-input-str-bool">quitting(user_input: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-none">end() -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-line">break_line()</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-dir-directory-str-bool">is_dir(directory: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-url-image-url-str-bool">is_url(image_url: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-url-user-input-str-str">clean_url(user_input: str) -&gt; str</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-dir-none">create_dir() -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-file-path-str">output_file_path() -&gt; str</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-and-add-url-img-source-str-image-sources-list-str-none">validate_and_add_url(img_source: str, image_sources: list[str]) -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-and-add-files-directory-str-image-sources-list-str-none">validate_and_add_files(directory: str, image_sources: list[str]) -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-valid-extension-img-source-str-bool">is_valid_extension(img_source: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-and-validate-image-sources-list-str-list-str">filter_and_validate(image_sources: list[str]) -&gt; list[str]</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -318,65 +320,133 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="welcome-to-the-ovative-group-image-caption-generator-s-documentation">
-<h1>Welcome to the Ovative Group Image Caption Generator’s documentation!<a class="headerlink" href="#welcome-to-the-ovative-group-image-caption-generator-s-documentation" title="Link to this heading">#</a></h1>
-<style> .orange {color:#fa4616; font-weight:bold; font-size:16px} </style><figure class="align-default">
-<img alt="_images/octopus.png" src="_images/octopus.png" />
-</figure>
-<p>This project was created by NDSU’s 2024 Capstone class. Contributors are: Ian King, Omar Elsegeiny, Mason Myles,
-Bohdan Ivanyshyn, and Emily Anderson.</p>
-<section id="the-problem">
-<h2>The Problem<a class="headerlink" href="#the-problem" title="Link to this heading">#</a></h2>
-<p><span class="orange">Ovative Group</span> is a digital media and marketing firm that provides analysis of their clients’ ads. However, in
-order to analyze the ads, they need to describe them. This is often time intensive. They came to us with the request to
-design an Image Captioning program that would allow the advertisements to be analyzed easier.</p>
+  <section id="utility-functions">
+<h1>Utility Functions<a class="headerlink" href="#utility-functions" title="Link to this heading">#</a></h1>
+<p>This document outlines utility functions used within the application to abstract certain operations and enhance clarity
+and usability.</p>
+<hr class="docutils" />
+<section id="clear">
+<h2>clear()<a class="headerlink" href="#clear" title="Link to this heading">#</a></h2>
+<p>Function to clear the console screen. Uses <code class="docutils literal notranslate"><span class="pre">os.system</span></code> to execute platform-specific clear commands.</p>
 </section>
-<section id="our-solution">
-<h2>Our Solution<a class="headerlink" href="#our-solution" title="Link to this heading">#</a></h2>
-<p>A command-line interface that intakes one or multiple images from a URL(s) or a directory. It then runs the images
-through several models and returns those captions in a CSV file. This CSV file, once created, then compiles all future
-captions in one place to allow for easier analysis.</p>
-<figure class="align-default">
-<img alt="_images/logo.png" src="_images/logo.png" />
-</figure>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#project-overview-ovative-group-capstone"><strong>Project Overview: Ovative Group Capstone</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#output"><strong>Output</strong></a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#efficiency"><strong>Efficiency</strong></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#clear">clear()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#quitting-user-input-str-bool">quitting(user_input: str) -&gt; bool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#end-none">end() -&gt; None</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#break-line">break_line()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#is-dir-directory-str-bool">is_dir(directory: str) -&gt; bool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#is-url-image-url-str-bool">is_url(image_url: str) -&gt; bool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#clean-url-user-input-str-str">clean_url(user_input: str) -&gt; str</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#create-dir-none">create_dir() -&gt; None</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#output-file-path-str">output_file_path() -&gt; str</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#validate-and-add-url-img-source-str-image-sources-list-str-none">validate_and_add_url(img_source: str, image_sources: list[str]) -&gt; None</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#validate-and-add-files-directory-str-image-sources-list-str-none">validate_and_add_files(directory: str, image_sources: list[str]) -&gt; None</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#is-valid-extension-img-source-str-bool">is_valid_extension(img_source: str) -&gt; bool</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#filter-and-validate-image-sources-list-str-list-str">filter_and_validate(image_sources: list[str]) -&gt; list[str]</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
-</ul>
-</div>
+<section id="quitting-user-input-str-bool">
+<h2>quitting(user_input: str) -&gt; bool<a class="headerlink" href="#quitting-user-input-str-bool" title="Link to this heading">#</a></h2>
+<p>Checks if the user input signifies quitting. Returns True if the input is ‘q’ or ‘quit’, otherwise False.</p>
 </section>
+<section id="end-none">
+<h2>end() -&gt; None<a class="headerlink" href="#end-none" title="Link to this heading">#</a></h2>
+<p>Ends the program execution by clearing the screen and terminating the application.</p>
 </section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<section id="break-line">
+<h2>break_line()<a class="headerlink" href="#break-line" title="Link to this heading">#</a></h2>
+<p>Prints a break line to help separate outputs for better human readability.</p>
+</section>
+<section id="is-dir-directory-str-bool">
+<h2>is_dir(directory: str) -&gt; bool<a class="headerlink" href="#is-dir-directory-str-bool" title="Link to this heading">#</a></h2>
+<p>Checks if the given path represents an existing local directory.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>directory (str): Possible directory path.</p></li>
 </ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the path exists and is a directory, False otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="is-url-image-url-str-bool">
+<h2>is_url(image_url: str) -&gt; bool<a class="headerlink" href="#is-url-image-url-str-bool" title="Link to this heading">#</a></h2>
+<p>Checks if the given string represents a valid URL.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>image_url (str): URL of the image.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the string is a valid URL, False otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="clean-url-user-input-str-str">
+<h2>clean_url(user_input: str) -&gt; str<a class="headerlink" href="#clean-url-user-input-str-str" title="Link to this heading">#</a></h2>
+<p>Checks if the user has a “clean” input URL. If the URL lacks ‘<a class="reference external" href="https://">https://</a>’ prefix and starts with ‘www’, it adds ‘<a class="reference external" href="https://">https://</a>’ to the beginning.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>user_input (str): User input URL.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str: Cleaned URL.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="create-dir-none">
+<h2>create_dir() -&gt; None<a class="headerlink" href="#create-dir-none" title="Link to this heading">#</a></h2>
+<p>Creates a directory to store generated outputs if it doesn’t exist already. Prints a message indicating the creation status.</p>
+</section>
+<section id="output-file-path-str">
+<h2>output_file_path() -&gt; str<a class="headerlink" href="#output-file-path-str" title="Link to this heading">#</a></h2>
+<p>Returns the path to the output CSV file.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str: Path to the output file.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="validate-and-add-url-img-source-str-image-sources-list-str-none">
+<h2>validate_and_add_url(img_source: str, image_sources: list[str]) -&gt; None<a class="headerlink" href="#validate-and-add-url-img-source-str-image-sources-list-str-none" title="Link to this heading">#</a></h2>
+<p>Validates and adds a URL to the list of image sources if it has a valid file extension.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>img_source (str): URL of the image.</p></li>
+<li><p>image_sources (list[str]): List of image sources.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="validate-and-add-files-directory-str-image-sources-list-str-none">
+<h2>validate_and_add_files(directory: str, image_sources: list[str]) -&gt; None<a class="headerlink" href="#validate-and-add-files-directory-str-image-sources-list-str-none" title="Link to this heading">#</a></h2>
+<p>Validates and adds local image files from the given directory to the list of image sources if they have valid file extensions.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>directory (str): Path of the directory with image files to be validated.</p></li>
+<li><p>image_sources (list[str]): List of image sources.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="is-valid-extension-img-source-str-bool">
+<h2>is_valid_extension(img_source: str) -&gt; bool<a class="headerlink" href="#is-valid-extension-img-source-str-bool" title="Link to this heading">#</a></h2>
+<p>Checks if the given string contains a valid file extension.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>img_source (str): Source of the image with a file extension.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>bool: True if the extension is valid, False otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="filter-and-validate-image-sources-list-str-list-str">
+<h2>filter_and_validate(image_sources: list[str]) -&gt; list[str]<a class="headerlink" href="#filter-and-validate-image-sources-list-str-list-str" title="Link to this heading">#</a></h2>
+<p>Filters and validates a list of image sources, distinguishing between URLs and local files, and adds them to the result list.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><ul class="simple">
+<li><p>image_sources (list[str]): List of image sources.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>list[str]: Validated and filtered list of image sources.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
 </section>
 
 
@@ -390,15 +460,6 @@ captions in one place to allow for easier analysis.</p>
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="overview.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Overview</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -415,14 +476,20 @@ captions in one place to allow for easier analysis.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Welcome to the Ovative Group Image Caption Generator’s documentation!</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The Problem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#our-solution">Our Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clear">clear()</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quitting-user-input-str-bool">quitting(user_input: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-none">end() -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-line">break_line()</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-dir-directory-str-bool">is_dir(directory: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-url-image-url-str-bool">is_url(image_url: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-url-user-input-str-str">clean_url(user_input: str) -&gt; str</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-dir-none">create_dir() -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-file-path-str">output_file_path() -&gt; str</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-and-add-url-img-source-str-image-sources-list-str-none">validate_and_add_url(img_source: str, image_sources: list[str]) -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-and-add-files-directory-str-image-sources-list-str-none">validate_and_add_files(directory: str, image_sources: list[str]) -&gt; None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-valid-extension-img-source-str-bool">is_valid_extension(img_source: str) -&gt; bool</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-and-validate-image-sources-list-str-list-str">filter_and_validate(image_sources: list[str]) -&gt; list[str]</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>
