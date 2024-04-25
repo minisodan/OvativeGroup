@@ -44,6 +44,7 @@ class BlipImageThread(threading.Thread):
 
     @property
     def image(self) -> Image:
+        # return the image that is processed from the model
         return self.__image
 
     @image.setter

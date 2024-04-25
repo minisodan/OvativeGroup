@@ -19,6 +19,7 @@ class EasyOcrThread(threading.Thread):
 
     @property
     def ocr_output(self) -> list:
+        # returns OCR output
         return self.__ocr_output
 
     @ocr_output.setter
