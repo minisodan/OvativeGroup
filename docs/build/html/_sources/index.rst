@@ -40,7 +40,7 @@ captions in one place to allow for easier analysis.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
+   Sources
 
 
 Indices and tables
@@ -49,3 +49,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
