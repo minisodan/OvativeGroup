@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Threading &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
+    <title>Overview &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
   
   
   
@@ -40,9 +40,11 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'threads';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'overview';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sources" href="sources.html" />
+    <link rel="prev" title="Welcome to the Ovative Group Image Caption Generator’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -104,8 +106,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -146,8 +146,11 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 </ul>
 
     </div>
@@ -202,7 +205,7 @@
       
       
       
-      <li><a href="_sources/threads.rst" target="_blank"
+      <li><a href="_sources/overview.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -273,7 +276,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -284,11 +289,22 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Threading</h1>
+    <h1>Overview</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-overview-ovative-group-capstone"><strong>Project Overview: Ovative Group Capstone</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features"><strong>Features</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output"><strong>Output</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficiency"><strong>Efficiency</strong></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -298,117 +314,30 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="threading">
-<h1>Threading<a class="headerlink" href="#threading" title="Link to this heading">#</a></h1>
-<p>We have implemented multithreading into the project for effeciency. The motivation behind the implementation
-is that the models were running incredibly slow when given multiple images, and we wanted it to run as effecient as
-possible no matter the size of the input. We have seen more than a <strong>30% speed increase</strong> post implementation.
-The way we have done this is by creating classes of the two models used
-in this project, so they many return an instance of a thread to be used in the
-<code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
-<blockquote>
-<div><p>The Cohere LLM does not have a multihreading implementation, as it needs to wait for the input
-from both the easyOCR and blip-image models.</p>
-</div></blockquote>
-<ul>
-<li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">blip_image_thread.py</span></code></dt><dd><p>Class that represents a thread instance for the salesforce BLIP image captioning model. Includes
-a basic constructor:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def __init__(self, img: Image):</span>
-<span class="gp">    # </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
-<span class="go">    threading.Thread.__init__(self)</span>
-
-<span class="gp">    # </span>instantiating<span class="w"> </span>captions<span class="w"> </span>container<span class="w"> </span><span class="k">for</span><span class="w"> </span>conditonal<span class="w"> </span>and<span class="w"> </span>unconditional<span class="w"> </span>outputs
-<span class="go">    self.captions: tuple[str, str] = (&#39;&#39;, &#39;&#39;)</span>
-
-<span class="go">    self.image: Image = img</span>
-
-<span class="gp">    # </span>processer<span class="w"> </span>and<span class="w"> </span>model<span class="w"> </span>instantiation<span class="w"> </span>from<span class="w"> </span>blip_image.py<span class="w"> </span>class
-<span class="go">    self.processor = BlipProcessor.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
-<span class="go">    self.model = BlipForConditionalGeneration.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
-</pre></div>
-</div>
-<p>Along with getters for properties needed to return for the output
-as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
-<p>The setters for the caption and image properties have built-in with input validation, to ensure proper input:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">@captions.setter</span>
-<span class="go">def captions(self, captions: tuple[str, str]) -&gt; None:</span>
-<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span>variable<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>tuple
-<span class="go">    if captions is None or not isinstance(captions, tuple):</span>
-<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.captions must be a tuple. The passed in value is of type &#39;</span>
-<span class="go">                         f&#39;{type(captions)}&#39;)</span>
-
-<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>every<span class="w"> </span>item<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>tuple<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>string
-<span class="go">    if not any(isinstance(caption, str) for caption in captions):</span>
-<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.captions must be a tuple of strings. The passed in value &#39;</span>
-<span class="go">                         f&#39;was {captions}&#39;)</span>
-
-<span class="go">    self.__captions = captions</span>
-</pre></div>
-</div>
-<p>We do not have any getters/setters for the model and processer properties, as we will never need
-to return instances of them not change them in any way.</p>
-<p>Contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function that returns the result of the BLIP image captioning model, which is needed
-for the CSV output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def run(self):</span>
-<span class="go">    self.captions = bi.caption_image(self.image, self.processor, self.model)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</li>
-<li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">easy_ocr_thread.py</span></code></dt><dd><p>Class that represents a thread instance easyOCR model. Includes
-a basic constructor:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def __init__(self, img_source: str):</span>
-<span class="gp">    # </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
-<span class="go">    threading.Thread.__init__(self)</span>
-
-<span class="go">    self.img_source: str = img_source</span>
-<span class="go">    self.ocr_output: list = []</span>
-</pre></div>
-</div>
-<p>Along with setters and getters for the OCR output needed to return for the output
-as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">@property</span>
-<span class="go">def ocr_output(self) -&gt; list:</span>
-<span class="gp">    # </span>returns<span class="w"> </span>OCR<span class="w"> </span>output
-<span class="go">    return self.__ocr_output</span>
-
-<span class="go">@ocr_output.setter</span>
-<span class="go">def ocr_output(self, ocr_output: list | str) -&gt; None:</span>
-<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span>variable<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>string<span class="w"> </span>or<span class="w"> </span>an<span class="w"> </span>individual<span class="w"> </span>string
-<span class="go">    if ocr_output is None or not isinstance(ocr_output, list):</span>
-<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.ocr_output must be a list. The passed in value is of type &#39;</span>
-<span class="go">                        f&#39;{type(ocr_output)}&#39;)</span>
-
-<span class="go">    self.__ocr_output = ocr_output</span>
-</pre></div>
-</div>
-<p>Also contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function that returns the result of the easyOCR  model, which is needed for the CSV output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def run(self):</span>
-<span class="go">    self.ocr_output = ocr.inference(self.img_source)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</li>
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
+<section id="project-overview-ovative-group-capstone">
+<h2><strong>Project Overview: Ovative Group Capstone</strong><a class="headerlink" href="#project-overview-ovative-group-capstone" title="Link to this heading">#</a></h2>
+<p>This is our capstone project for Ovative Group, a terminal-based application designed as an in-house tool to help the marketing team rapidly process advertising images.
+Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, optimizing the marketing workflow.</p>
+</section>
+<section id="features">
+<h2><strong>Features</strong><a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Image Captioning</strong>: Utilizes the Salesforce/blip-image-captioning-large model to produce two types of captions: a standard caption and a conditional caption prefixed with “an image of” to vary the descriptive focus.</p></li>
+<li><p><strong>Optical Character Recognition (OCR)</strong>: Implements EasyOCR to detect and extract text from images with a confidence level above 30%</p></li>
+<li><p><strong>Caption Comprehension</strong>: Employs the Cohere large language model to synthesize the outputs from the OCR and image captioning models into a coherent text description of each image.</p></li>
 </ul>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>We create the instances as threads in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file to run parallel:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">t1 = BlipImageThread(img)</span>
-<span class="go">t2 = EasyOcrThread(img_source)</span>
-
-<span class="go">t1.start()</span>
-<span class="go">t2.start()</span>
-
-<span class="gp"># </span>end<span class="w"> </span>both<span class="w"> </span>threads
-<span class="go">t1.join()</span>
-<span class="go">t2.join()</span>
-</pre></div>
-</div>
+</section>
+<section id="output">
+<h2><strong>Output</strong><a class="headerlink" href="#output" title="Link to this heading">#</a></h2>
+<p>All results are recorded in a CSV file on your desktop. This structured dataset includes fields for the image source, captions, extracted text, and processing timestamps.
+Running the program will create a folder with CSV in it unless it already exists.</p>
+</section>
+<section id="efficiency">
+<h2><strong>Efficiency</strong><a class="headerlink" href="#efficiency" title="Link to this heading">#</a></h2>
+<p>Our application is written in Python and is optimized with threading to enhance processing speed, ensuring quick and efficient analysis. The system is managed within the Miniconda environment, facilitating streamlined package management and environment configuration.</p>
+</section>
 </section>
 
 
@@ -422,6 +351,24 @@ as shown in the <code class="docutils literal notranslate"><span class="pre">ima
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to the Ovative Group Image Caption Generator’s documentation!</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sources.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sources</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -429,7 +376,23 @@ as shown in the <code class="docutils literal notranslate"><span class="pre">ima
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-overview-ovative-group-capstone"><strong>Project Overview: Ovative Group Capstone</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features"><strong>Features</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output"><strong>Output</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficiency"><strong>Efficiency</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
