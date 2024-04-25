@@ -6,12 +6,13 @@ Overview
 
 This is our capstone project for Ovative Group, a terminal-based application designed as an in-house tool to help the marketing team rapidly process advertising images.
 Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, optimizing the marketing workflow.
+
 **Features**
 ------------
 
 - **Image Captioning**: Utilizes the Salesforce/blip-image-captioning-large model to produce two types of captions: a standard caption and a conditional caption prefixed with "an image of" to vary the descriptive focus.
 
-- **Optical Character Recognition (OCR)**: Implements EasyOCR to detect and extract text from images with a confidence level above 30%.
+- **Optical Character Recognition (OCR)**: Implements EasyOCR to detect and extract text from images with a confidence level above 30%
 
 - **Caption Comprehension**: Employs the Cohere large language model to synthesize the outputs from the OCR and image captioning models into a coherent text description of each image.
 

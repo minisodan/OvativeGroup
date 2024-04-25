@@ -43,6 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'overview';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sources" href="sources.html" />
     <link rel="prev" title="Welcome to the Ovative Group Image Caption Generator’s documentation!" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -147,6 +148,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 </ul>
 
     </div>
@@ -296,6 +300,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-overview-ovative-group-capstone"><strong>Project Overview: Ovative Group Capstone</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features"><strong>Features</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output"><strong>Output</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficiency"><strong>Efficiency</strong></a></li>
 </ul>
@@ -314,12 +319,13 @@ document.write(`
 <section id="project-overview-ovative-group-capstone">
 <h2><strong>Project Overview: Ovative Group Capstone</strong><a class="headerlink" href="#project-overview-ovative-group-capstone" title="Link to this heading">#</a></h2>
 <p>This is our capstone project for Ovative Group, a terminal-based application designed as an in-house tool to help the marketing team rapidly process advertising images.
-Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, optimizing the marketing workflow.
-<strong>Features</strong>
-————</p>
+Our integrated solution combines multiple technologies to process images, extract text, and generate detailed descriptions, optimizing the marketing workflow.</p>
+</section>
+<section id="features">
+<h2><strong>Features</strong><a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Image Captioning</strong>: Utilizes the Salesforce/blip-image-captioning-large model to produce two types of captions: a standard caption and a conditional caption prefixed with “an image of” to vary the descriptive focus.</p></li>
-<li><p><strong>Optical Character Recognition (OCR)</strong>: Implements EasyOCR to detect and extract text from images with a confidence level above 30%.</p></li>
+<li><p><strong>Optical Character Recognition (OCR)</strong>: Implements EasyOCR to detect and extract text from images with a confidence level above 30%</p></li>
 <li><p><strong>Caption Comprehension</strong>: Employs the Cohere large language model to synthesize the outputs from the OCR and image captioning models into a coherent text description of each image.</p></li>
 </ul>
 </section>
@@ -354,6 +360,15 @@ Running the program will create a folder with CSV in it unless it already exists
         <p class="prev-next-title">Welcome to the Ovative Group Image Caption Generator’s documentation!</p>
       </div>
     </a>
+    <a class="right-next"
+       href="sources.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sources</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -371,6 +386,7 @@ Running the program will create a folder with CSV in it unless it already exists
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-overview-ovative-group-capstone"><strong>Project Overview: Ovative Group Capstone</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features"><strong>Features</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output"><strong>Output</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#efficiency"><strong>Efficiency</strong></a></li>
 </ul>
