@@ -41,6 +41,7 @@ captions in one place to allow for easier analysis.
    :maxdepth: 2
    :caption: Contents:
 
+   utils
 
 
 Indices and tables
