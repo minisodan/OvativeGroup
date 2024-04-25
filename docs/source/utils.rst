@@ -67,7 +67,7 @@ Creates a directory to store generated outputs if it doesn't exist already. Prin
 output_file_path() -> str
 -------------------------
 
-Returns the path to the output file.
+Returns the path to the output CSV file.
 
 Returns:
     - str: Path to the output file.
