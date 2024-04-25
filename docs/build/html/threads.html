@@ -309,23 +309,91 @@ from both the easyOCR and blip-image models.</p>
 </div></blockquote>
 <ul>
 <li><dl>
-<dt><code class="docutils literal notranslate"><span class="pre">blip_image_thread.py</span></code></dt><dd><p>Class that represents a thread instance salesforce BLIP image captioning model. Includes
-a basic constructor, along with setters and getters for properties needed to retun for the output
+<dt><code class="docutils literal notranslate"><span class="pre">blip_image_thread.py</span></code></dt><dd><p>Class that represents a thread instance for the salesforce BLIP image captioning model. Includes
+a basic constructor:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def __init__(self, img: Image):</span>
+<span class="gp"># </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
+<span class="go">threading.Thread.__init__(self)</span>
+
+<span class="gp"># </span>instantiating<span class="w"> </span>captions<span class="w"> </span>container<span class="w"> </span><span class="k">for</span><span class="w"> </span>conditonal<span class="w"> </span>and<span class="w"> </span>unconditional<span class="w"> </span>outputs
+<span class="go">self.captions: tuple[str, str] = (&#39;&#39;, &#39;&#39;)</span>
+
+<span class="go">self.image: Image = img</span>
+
+<span class="gp"># </span>processer<span class="w"> </span>and<span class="w"> </span>model<span class="w"> </span>instantiation<span class="w"> </span>from<span class="w"> </span>blip_image.py<span class="w"> </span>class
+<span class="go">self.processor = BlipProcessor.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
+<span class="go">self.model = BlipForConditionalGeneration.from_pretrained(&quot;Salesforce/blip-image-captioning-large&quot;)</span>
+</pre></div>
+</div>
+<p>Along with getters for properties needed to return for the output
 as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
-<p>Contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function: returns the result of the BLIP image captioning model, which is needed
-for the CSV output.</p>
+<p>The setters for the caption and image properties have built-in with input validation, to ensure proper input:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">@captions.setter</span>
+<span class="go">def captions(self, captions: tuple[str, str]) -&gt; None:</span>
+<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span>variable<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>tuple
+<span class="go">    if captions is None or not isinstance(captions, tuple):</span>
+<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.captions must be a tuple. The passed in value is of type &#39;</span>
+<span class="go">                         f&#39;{type(captions)}&#39;)</span>
+
+<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>every<span class="w"> </span>item<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>tuple<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>string
+<span class="go">    if not any(isinstance(caption, str) for caption in captions):</span>
+<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.captions must be a tuple of strings. The passed in value &#39;</span>
+<span class="go">                         f&#39;was {captions}&#39;)</span>
+
+<span class="go">    self.__captions = captions</span>
+</pre></div>
+</div>
+<p>We do not have any getters/setters for the model and processer properties, as we will never need
+to return instances of them not change them in any way.</p>
+<p>Contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function that returns the result of the BLIP image captioning model, which is needed
+for the CSV output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def run(self):</span>
+<span class="go">    self.captions = bi.caption_image(self.image, self.processor, self.model)</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </li>
 <li><dl>
 <dt><code class="docutils literal notranslate"><span class="pre">easy_ocr_thread.py</span></code></dt><dd><p>Class that represents a thread instance easyOCR model. Includes
-a basic constructor, along with setters and getters for properties needed to retun for the output
+a basic constructor:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def __init__(self, img_source: str):</span>
+<span class="gp">    # </span>execute<span class="w"> </span>the<span class="w"> </span>base<span class="w"> </span>constructor
+<span class="go">    threading.Thread.__init__(self)</span>
+
+<span class="go">    self.img_source: str = img_source</span>
+<span class="go">    self.ocr_output: list = []</span>
+</pre></div>
+</div>
+<p>Along with setters and getters for the OCR output needed to return for the output
 as shown in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>
-<p>Also contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function: returns the result of the easyOCR  model, which is needed for the CSV output.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">@property</span>
+<span class="go">def ocr_output(self) -&gt; list:</span>
+<span class="gp">    # </span>returns<span class="w"> </span>OCR<span class="w"> </span>output
+<span class="go">    return self.__ocr_output</span>
+
+<span class="go">@ocr_output.setter</span>
+<span class="go">def ocr_output(self, ocr_output: list | str) -&gt; None:</span>
+<span class="gp">    # </span>check<span class="w"> </span><span class="k">if</span><span class="w"> </span>the<span class="w"> </span>passed<span class="w"> </span><span class="k">in</span><span class="w"> </span>variable<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>string<span class="w"> </span>or<span class="w"> </span>an<span class="w"> </span>individual<span class="w"> </span>string
+<span class="go">    if ocr_output is None or not isinstance(ocr_output, list):</span>
+<span class="go">        raise ValueError(f&#39;{self.__class__.__name__}.ocr_output must be a list. The passed in value is of type &#39;</span>
+<span class="go">                        f&#39;{type(ocr_output)}&#39;)</span>
+
+<span class="go">    self.__ocr_output = ocr_output</span>
+</pre></div>
+</div>
+<p>Also contains a <code class="docutils literal notranslate"><span class="pre">run</span></code> function that returns the result of the easyOCR  model, which is needed for the CSV output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">def run(self):</span>
+<span class="go">    self.ocr_output = ocr.inference(self.img_source)</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </li>
 </ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>We create the instances as threads in the <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file to run parallel:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">t1 = BlipImageThread(img)</span>
 <span class="go">t2 = EasyOcrThread(img_source)</span>

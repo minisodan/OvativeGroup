@@ -28,7 +28,7 @@ in this project, so they many return an instance of a thread to be used in the
         self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
         self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
-    along with getters for properties needed to return for the output
+    Along with getters for properties needed to return for the output
     as shown in the ``image_processer.py`` file.
 
     The setters for the caption and image properties have built-in with input validation, to ensure proper input:
@@ -58,15 +58,48 @@ in this project, so they many return an instance of a thread to be used in the
     .. code-block:: console
 
         def run(self):
-        self.captions = bi.caption_image(self.image, self.processor, self.model)
+            self.captions = bi.caption_image(self.image, self.processor, self.model)
 
 - ``easy_ocr_thread.py``
     Class that represents a thread instance easyOCR model. Includes
-    a basic constructor, along with setters and getters for properties needed to return for the output
+    a basic constructor:
+
+    .. code-block:: console
+
+        def __init__(self, img_source: str):
+            # execute the base constructor
+            threading.Thread.__init__(self)
+
+            self.img_source: str = img_source
+            self.ocr_output: list = []
+
+    Along with setters and getters for the OCR output needed to return for the output
     as shown in the ``image_processer.py`` file.
 
-    Also contains a ``run`` function: returns the result of the easyOCR  model, which is needed for the CSV output.
+    .. code-block:: console
 
+        @property
+        def ocr_output(self) -> list:
+            # returns OCR output
+            return self.__ocr_output
+
+        @ocr_output.setter
+        def ocr_output(self, ocr_output: list | str) -> None:
+            # check if the passed in variable is a list of string or an individual string
+            if ocr_output is None or not isinstance(ocr_output, list):
+                raise ValueError(f'{self.__class__.__name__}.ocr_output must be a list. The passed in value is of type '
+                                f'{type(ocr_output)}')
+
+            self.__ocr_output = ocr_output
+
+    Also contains a ``run`` function that returns the result of the easyOCR  model, which is needed for the CSV output:
+
+    .. code-block:: console
+
+        def run(self):
+            self.ocr_output = ocr.inference(self.img_source)
+
+|
 We create the instances as threads in the ``image_processer.py`` file to run parallel:
 
 .. code-block:: console
