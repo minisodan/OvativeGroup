@@ -299,7 +299,9 @@ document.write(`
                   
   <section id="threading">
 <h1>Threading<a class="headerlink" href="#threading" title="Link to this heading">#</a></h1>
-<p>We have implemented multithreading into the project for effeciency.
+<p>We have implemented multithreading into the project for effeciency. The motivation behind the implementation
+is that the models were running incredibly slow when given multiple images, and we wanted it to run as effecient as
+possible no matter the size of the input. We have seen more than a <strong>30% speed increase</strong> post implementation.
 The way we have done this is by creating classes of the two models used
 in this project, so they many return an instance of a thread to be used in the
 <code class="docutils literal notranslate"><span class="pre">image_processer.py</span></code> file.</p>

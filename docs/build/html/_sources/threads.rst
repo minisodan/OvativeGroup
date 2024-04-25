@@ -1,7 +1,9 @@
 Threading
 ---------
 
-We have implemented multithreading into the project for effeciency.
+We have implemented multithreading into the project for effeciency. The motivation behind the implementation
+is that the models were running incredibly slow when given multiple images, and we wanted it to run as effecient as
+possible no matter the size of the input. We have seen more than a **30% speed increase** post implementation.
 The way we have done this is by creating classes of the two models used
 in this project, so they many return an instance of a thread to be used in the
 ``image_processer.py`` file.
