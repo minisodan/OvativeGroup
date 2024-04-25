@@ -82,7 +82,6 @@ class ImageProcessor(object):
                                  'Compiled Output', 'Date Processed', 'Time Processed']
 
         # used to store generated outputs from the models
-        # tuples are formed as (generated caption(s), image source)
         rows: list[dict] = []
         values: list[str]
 
