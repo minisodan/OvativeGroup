@@ -42,9 +42,10 @@ captions in one place to allow for easier analysis.
    :caption: Contents:
 
    overview
-   sources
-   utils
+   app
    threads
+   utils
+   sources
 
 Indices and tables
 ==================

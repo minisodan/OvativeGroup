@@ -1,5 +1,6 @@
 Sources
 =======
+
 1. "Salesforce/Blip-Image-Captioning-Large - Hugging Face" *Salesforce/Blip-Image-Captioning-Large - Hugging Face*, huggingface.co/Salesforce/blip-image-captioning-large. Accessed 25 Apr. 2024. `(1)
 <https://huggingface.co/Salesforce/blip-image-captioning-large>`_
 

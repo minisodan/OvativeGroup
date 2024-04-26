@@ -8,7 +8,12 @@ input once started.
 """
 
 
-def start():
+def start() -> None:
+    """
+    This method will start the application. It will first prompt the user for a directory of images or a URL(s).
+    A mix of both can be passed in, as long as each input is separated by a comma (e.g., URL, directory, URL, URL).
+    :return: None
+    """
     processor: ImageProcessor = ImageProcessor()
     utils.clear()  # clear terminal for fresh start
     print('Please provide an image URL(s) or a directory path to an image(s). If submitting '
