@@ -47,9 +47,3 @@ captions in one place to allow for easier analysis.
    utils
    sources
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
