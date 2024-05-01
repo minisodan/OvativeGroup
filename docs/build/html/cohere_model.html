@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sources &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
+    <title>Coherence Model &#8212; Ovative Group Image Caption Generator 1.0.0 documentation</title>
   
   
   
@@ -40,10 +40,11 @@
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'sources';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cohere_model';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Utility Functions" href="utils.html" />
+    <link rel="next" title="Easy OCR Model" href="easyocr.html" />
+    <link rel="prev" title="Sales Force Model" href="sales_force_model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -147,10 +148,13 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sales_force_model.html">Sales Force Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Coherence Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="easyocr.html">Easy OCR Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="app.html">App Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sources.html">Sources</a></li>
 </ul>
 
     </div>
@@ -205,7 +209,7 @@
       
       
       
-      <li><a href="_sources/sources.rst" target="_blank"
+      <li><a href="_sources/cohere_model.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +280,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -287,11 +293,24 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Sources</h1>
+    <h1>Coherence Model</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence-function">Coherence Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines">Guidelines:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -301,11 +320,59 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="sources">
-<h1>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h1>
-<p>1. “Salesforce/Blip-Image-Captioning-Large - Hugging Face” <em>Salesforce/Blip-Image-Captioning-Large - Hugging Face</em>, huggingface.co/Salesforce/blip-image-captioning-large. Accessed 25 Apr. 2024. <a class="reference external" href="https://huggingface.co/Salesforce/blip-image-captioning-large">(1)</a></p>
-<p>2. JaidedAI “Jaidedai/EasyOCR.” <em>GitHub</em>, github.com/JaidedAI/EasyOCR. Accessed 25 Apr. 2024. <a class="reference external" href="https://github.com/JaidedAI/EasyOCR">(2)</a></p>
-<p>3. <em>Cohere</em>, cohere.com/. Accessed 25 Apr. 2024. <a class="reference external" href="https://cohere.com/">(3)</a></p>
+  <section id="coherence-model">
+<h1>Coherence Model<a class="headerlink" href="#coherence-model" title="Link to this heading">#</a></h1>
+<section id="coherence-function">
+<h2>Coherence Function<a class="headerlink" href="#coherence-function" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="coherence">
+<span class="sig-name descname"><span class="pre">coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">con_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unc_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ocr_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#coherence" title="Link to this definition">#</a></dt>
+<dd><p>Generates a coherent output by combining data from an image captioning model and an Optical Character Recognition (OCR) model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>con_caption</strong> (<em>str</em>) – The conditional image caption generated by the image captioning model.</p></li>
+<li><p><strong>unc_caption</strong> (<em>str</em>) – The unconditional image caption generated by the image captioning model.</p></li>
+<li><p><strong>ocr_output</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The output text generated by the Optical Character Recognition (OCR) model.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A coherent sentence describing the image, adhering to specific guidelines.</p>
+</dd>
+</dl>
+<p>Synthesizes outputs from an image captioning model and an OCR model into one coherent sentence describing the image. It follows specific guidelines to ensure the quality, relevance, and grammatical integrity of the output.</p>
+</dd></dl>
+
+</section>
+<section id="guidelines">
+<h2>Guidelines:<a class="headerlink" href="#guidelines" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><strong>Generalize Brand References:</strong> If brand names are not specified in the inputs, avoid using specific brand names in the description.</p></li>
+<li><p><strong>Maintain Grammatical Integrity:</strong> Ensure that the output follows standard grammar rules and does not include any grammatically incorrect words.</p></li>
+<li><p><strong>Do Not Add Context When Context Is Not Given:</strong> Avoid speculating on the context around the image or adding elements that are not provided.</p></li>
+<li><p><strong>Utilize OCR Brand Names:</strong> If brand names are detected in the OCR output, incorporate them into the output caption.</p></li>
+<li><p><strong>Start Every Caption With:</strong> “The advertisement seems to be “.</p></li>
+<li><p><strong>Utilize Celebrity Names:</strong> If celebrity names are provided, mention them in the output without providing additional context.</p></li>
+<li><p><strong>Final Guideline:</strong> Output only the final caption without additional information.</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="example-usage">
+<h2>Example usage:<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_module</span> <span class="kn">import</span> <span class="n">coherence</span>
+
+<span class="n">con_caption</span> <span class="o">=</span> <span class="s2">&quot;A photo of a scenic beach&quot;</span>
+<span class="n">unc_caption</span> <span class="o">=</span> <span class="s2">&quot;An image showing a beautiful sunset&quot;</span>
+<span class="n">ocr_output</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Colgate&quot;</span><span class="p">,</span> <span class="s2">&quot;Sprite&quot;</span><span class="p">]</span>
+
+<span class="n">output_caption</span> <span class="o">=</span> <span class="n">coherence</span><span class="p">(</span><span class="n">con_caption</span><span class="p">,</span> <span class="n">unc_caption</span><span class="p">,</span> <span class="n">ocr_output</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output Caption:&quot;</span><span class="p">,</span> <span class="n">output_caption</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
 </section>
 
 
@@ -320,13 +387,22 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="utils.html"
+       href="sales_force_model.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Utility Functions</p>
+        <p class="prev-next-title">Sales Force Model</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="easyocr.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Easy OCR Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -335,7 +411,25 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"></div>
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence-function">Coherence Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines">Guidelines:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
