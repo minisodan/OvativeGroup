@@ -29,8 +29,8 @@ def coherence(con_caption: str, unc_caption: str, ocr_output: list[str]) -> str:
                 f"Third Guideline Start Every Caption With: 'The Advertisement seems to be '"
                 f"If You are Given a Celebrity Name Use It: Do NOT describe them and do not give extra "
                 f"context on the celebrity. Only say that they are in the Ad"
-                f"Final Guideline: ONLY respond with the caption you have generated and NOTHING more. DO NOT ask me how "
-                f"you can be more helpful I ONLY want you to provide the caption you will be generating."
+                f"Final Guideline: ONLY output with the final caption you have generated and NOTHING more."
+                f"meaning i want one or two sentences describing what the image could be. "
                 f"these are captions of an image generated from the salesforce blip model: {con_caption},"
                 f"{unc_caption} and easyocr read the following words from the image: {ocr_output}, ",
         model="command"

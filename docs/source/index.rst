@@ -42,6 +42,9 @@ captions in one place to allow for easier analysis.
    :caption: Contents:
 
    overview
+   sales_force_model
+   cohere_model
+   easyocr
    app
    threads
    utils
