@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'cohere_model';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="App Module" href="app.html" />
+    <link rel="next" title="Easy OCR Model" href="easyocr.html" />
     <link rel="prev" title="Sales Force Model" href="sales_force_model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -150,6 +150,9 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sales_force_model.html">Sales Force Model</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Coherence Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="easyocr.html">Easy OCR Model</a></li>
+
+
 <li class="toctree-l1"><a class="reference internal" href="app.html">App Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
@@ -319,7 +322,7 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="coherence">
 <span class="sig-name descname"><span class="pre">coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">con_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unc_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ocr_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#coherence" title="Link to this definition">#</a></dt>
-<dd><p>This function generates a coherent output by combining data from an image captioning model and an Optical Character Recognition (OCR) model.</p>
+<dd><p>Generates a coherent output by combining data from an image captioning model and an Optical Character Recognition (OCR) model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -332,7 +335,7 @@ document.write(`
 <dd class="field-even"><p>A coherent sentence describing the image, adhering to specific guidelines.</p>
 </dd>
 </dl>
-<p>This function synthesizes outputs from an image captioning model and an OCR model into one coherent sentence describing the image. It follows specific guidelines to ensure the quality, relevance, and grammatical integrity of the output.</p>
+<p>Synthesizes outputs from an image captioning model and an OCR model into one coherent sentence describing the image. It follows specific guidelines to ensure the quality, relevance, and grammatical integrity of the output.</p>
 <p>Guidelines:</p>
 <ol class="arabic simple">
 <li><p><strong>Generalize Brand References:</strong> If brand names are not specified in the inputs, avoid using specific brand names in the description.</p></li>
@@ -379,11 +382,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="app.html"
+       href="easyocr.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">App Module</p>
+        <p class="prev-next-title">Easy OCR Model</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -9,7 +9,7 @@ Easy OCR Model
     :type image_url: str
     :return: A Pillow Image object created from the downloaded image.
 
-    This function retrieves an image from the specified URL and converts it into a Pillow Image object for further processing.
+    Retrieves an image from the specified URL and converts it into a Pillow Image object for further processing.
 
 draw_boxes Function
 ===================
@@ -27,7 +27,7 @@ draw_boxes Function
     :type width: int
     :return: The updated Pillow Image object with bounding boxes drawn around the text.
 
-    This function draws bounding boxes around text regions detected in the image. It is primarily used for visualization purposes.
+    Draws bounding boxes around text regions detected in the image. It is primarily used for visualization purposes.
 
 inference Function
 ===================
@@ -42,7 +42,7 @@ inference Function
     :type lang: str
     :return: A list of strings containing the detected text.
 
-    This function reads text from the input image using the EasyOCR library. It supports both local image files and URLs.
+    Reads text from the input image using the EasyOCR library. It supports both local image files and URLs.
     Text detection is performed based on the specified language, with an optional parameter to adjust confidence filtering.
 
 Example usage:
