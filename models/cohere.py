@@ -26,7 +26,7 @@ def coherence(con_caption: str, unc_caption: str, ocr_output: list[str]) -> str:
                 f"when you are not given them."
                 f"If you are given any brands in the Optical Character Recognition output please use them: "
                 f"for example if you are given Colgate or Sprite, mention them in the output caption."
-                f"Third Guideline Start Every Caption With: 'The Advertisement seems to be '"
+                f"Third Guideline Start Every Caption With: 'The advertisement seems to be '"
                 f"If You are Given a Celebrity Name Use It: Do NOT describe them and do not give extra "
                 f"context on the celebrity. Only say that they are in the Ad"
                 f"Final Guideline: ONLY output with the final caption you have generated and NOTHING more."

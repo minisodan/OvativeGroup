@@ -1,6 +1,9 @@
 Easy OCR Model
 ==============
 
+download_image Function
+-----------------------
+
 .. function:: download_image(image_url: str) -> Image
 
     Downloads an image from a URL into a format processable for Optical Character Recognition (OCR).
@@ -12,7 +15,7 @@ Easy OCR Model
     Retrieves an image from the specified URL and converts it into a Pillow Image object for further processing.
 
 draw_boxes Function
-===================
+-------------------
 
 .. function:: draw_boxes(image: Image, bounds, color='yellow', width=2) -> Image
 
@@ -30,7 +33,7 @@ draw_boxes Function
     Draws bounding boxes around text regions detected in the image. It is primarily used for visualization purposes.
 
 inference Function
-===================
+------------------
 
 .. function:: inference(img_source, lang='en') -> list[str]
 
@@ -46,6 +49,7 @@ inference Function
     Text detection is performed based on the specified language, with an optional parameter to adjust confidence filtering.
 
 Example usage:
+--------------
 
 .. code-block:: python
 

@@ -151,8 +151,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sales_force_model.html">Sales Force Model</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Coherence Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="easyocr.html">Easy OCR Model</a></li>
-
-
 <li class="toctree-l1"><a class="reference internal" href="app.html">App Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
@@ -305,7 +303,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence-function">Coherence Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines">Guidelines:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
 </ul>
             </nav>
         </div>
@@ -319,6 +322,8 @@ document.write(`
                   
   <section id="coherence-model">
 <h1>Coherence Model<a class="headerlink" href="#coherence-model" title="Link to this heading">#</a></h1>
+<section id="coherence-function">
+<h2>Coherence Function<a class="headerlink" href="#coherence-function" title="Link to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="coherence">
 <span class="sig-name descname"><span class="pre">coherence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">con_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unc_caption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ocr_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#coherence" title="Link to this definition">#</a></dt>
@@ -336,18 +341,27 @@ document.write(`
 </dd>
 </dl>
 <p>Synthesizes outputs from an image captioning model and an OCR model into one coherent sentence describing the image. It follows specific guidelines to ensure the quality, relevance, and grammatical integrity of the output.</p>
-<p>Guidelines:</p>
-<ol class="arabic simple">
+</dd></dl>
+
+</section>
+<section id="guidelines">
+<h2>Guidelines:<a class="headerlink" href="#guidelines" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><ol class="arabic simple">
 <li><p><strong>Generalize Brand References:</strong> If brand names are not specified in the inputs, avoid using specific brand names in the description.</p></li>
 <li><p><strong>Maintain Grammatical Integrity:</strong> Ensure that the output follows standard grammar rules and does not include any grammatically incorrect words.</p></li>
 <li><p><strong>Do Not Add Context When Context Is Not Given:</strong> Avoid speculating on the context around the image or adding elements that are not provided.</p></li>
 <li><p><strong>Utilize OCR Brand Names:</strong> If brand names are detected in the OCR output, incorporate them into the output caption.</p></li>
-<li><p><strong>Start Every Caption With:</strong> “The Advertisement seems to be “.</p></li>
+<li><p><strong>Start Every Caption With:</strong> “The advertisement seems to be “.</p></li>
 <li><p><strong>Utilize Celebrity Names:</strong> If celebrity names are provided, mention them in the output without providing additional context.</p></li>
 <li><p><strong>Final Guideline:</strong> Output only the final caption without additional information.</p></li>
 </ol>
-<p>Example usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_module</span> <span class="kn">import</span> <span class="n">coherence</span>
+</div></blockquote>
+</section>
+<section id="example-usage">
+<h2>Example usage:<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">coherence_module</span> <span class="kn">import</span> <span class="n">coherence</span>
 
 <span class="n">con_caption</span> <span class="o">=</span> <span class="s2">&quot;A photo of a scenic beach&quot;</span>
 <span class="n">unc_caption</span> <span class="o">=</span> <span class="s2">&quot;An image showing a beautiful sunset&quot;</span>
@@ -357,8 +371,8 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output Caption:&quot;</span><span class="p">,</span> <span class="n">output_caption</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd></dl>
-
+</div></blockquote>
+</section>
 </section>
 
 
@@ -406,7 +420,12 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence-function">Coherence Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coherence"><code class="docutils literal notranslate"><span class="pre">coherence()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidelines">Guidelines:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
 </ul>
   </nav></div>
 

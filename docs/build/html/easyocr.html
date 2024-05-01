@@ -151,8 +151,6 @@
 <li class="toctree-l1"><a class="reference internal" href="sales_force_model.html">Sales Force Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cohere_model.html">Coherence Model</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Easy OCR Model</a></li>
-
-
 <li class="toctree-l1"><a class="reference internal" href="app.html">App Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="threads.html">Threading</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">Utility Functions</a></li>
@@ -305,20 +303,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Easy OCR Model</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download_image"><code class="docutils literal notranslate"><span class="pre">download_image()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-image-function">download_image Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download_image"><code class="docutils literal notranslate"><span class="pre">download_image()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#draw-boxes-function">draw_boxes Function</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draw_boxes"><code class="docutils literal notranslate"><span class="pre">draw_boxes()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draw-boxes-function">draw_boxes Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#draw_boxes"><code class="docutils literal notranslate"><span class="pre">draw_boxes()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-function">inference Function</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-function">inference Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -331,6 +329,8 @@ document.write(`
                   
   <section id="easy-ocr-model">
 <h1>Easy OCR Model<a class="headerlink" href="#easy-ocr-model" title="Link to this heading">#</a></h1>
+<section id="download-image-function">
+<h2>download_image Function<a class="headerlink" href="#download-image-function" title="Link to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="download_image">
 <span class="sig-name descname"><span class="pre">download_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Image</span></span></span><a class="headerlink" href="#download_image" title="Link to this definition">#</a></dt>
@@ -348,7 +348,7 @@ document.write(`
 
 </section>
 <section id="draw-boxes-function">
-<h1>draw_boxes Function<a class="headerlink" href="#draw-boxes-function" title="Link to this heading">#</a></h1>
+<h2>draw_boxes Function<a class="headerlink" href="#draw-boxes-function" title="Link to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="draw_boxes">
 <span class="sig-name descname"><span class="pre">draw_boxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'yellow'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Image</span></span></span><a class="headerlink" href="#draw_boxes" title="Link to this definition">#</a></dt>
@@ -371,7 +371,7 @@ document.write(`
 
 </section>
 <section id="inference-function">
-<h1>inference Function<a class="headerlink" href="#inference-function" title="Link to this heading">#</a></h1>
+<h2>inference Function<a class="headerlink" href="#inference-function" title="Link to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="inference">
 <span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#inference" title="Link to this definition">#</a></dt>
@@ -391,7 +391,9 @@ document.write(`
 Text detection is performed based on the specified language, with an optional parameter to adjust confidence filtering.</p>
 </dd></dl>
 
-<p>Example usage:</p>
+</section>
+<section id="example-usage">
+<h2>Example usage:<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ocr_module</span> <span class="kn">import</span> <span class="n">download_image</span><span class="p">,</span> <span class="n">inference</span>
 
 <span class="n">image_url</span> <span class="o">=</span> <span class="s2">&quot;https://example.com/image.jpg&quot;</span>
@@ -400,6 +402,7 @@ Text detection is performed based on the specified language, with an optional pa
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Detected Text:&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 </section>
 
 
@@ -447,20 +450,20 @@ Text detection is performed based on the specified language, with an optional pa
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Easy OCR Model</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download_image"><code class="docutils literal notranslate"><span class="pre">download_image()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-image-function">download_image Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download_image"><code class="docutils literal notranslate"><span class="pre">download_image()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#draw-boxes-function">draw_boxes Function</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draw_boxes"><code class="docutils literal notranslate"><span class="pre">draw_boxes()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draw-boxes-function">draw_boxes Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#draw_boxes"><code class="docutils literal notranslate"><span class="pre">draw_boxes()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-function">inference Function</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inference-function">inference Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-usage">Example usage:</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
